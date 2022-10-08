@@ -369,6 +369,11 @@
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.2.1.tgz#6f2948ff002ec46df01420dfeff91de16c5b4092"
   integrity sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==
 
+"@vue/devtools-api@^6.2.1":
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.4.3.tgz#784aa9e397adde727ca892c3574f5f1cfb2bc1c2"
+  integrity sha512-9WCRwdROJvWcHAdyrR7SZMM/qUvllDZnpndHXokThkUsjnJ2xe4/pvsH9FZrxFe22L+JmDKczL79HjLJ7DK9rg==
+
 "@vue/reactivity-transform@3.2.38":
   version "3.2.38"
   resolved "https://registry.yarnpkg.com/@vue/reactivity-transform/-/reactivity-transform-3.2.38.tgz#a856c217b2ead99eefb6fddb1d61119b2cb67984"
@@ -1571,6 +1576,14 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
+
+pinia@^2.0.22:
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.22.tgz#435468e8e6d6aa6f319cb727b23bd51db0844c4a"
+  integrity sha512-u+b8/BC+tmvo3ACbYO2w5NfxHWFOjvvw9DQnyT0dW8aUMCPRQT5QnfZ5R5W2MzZBMTeZRMQI7V/QFbafmM9QHw==
+  dependencies:
+    "@vue/devtools-api" "^6.2.1"
+    vue-demi "*"
 
 pkg-types@^0.3.4:
   version "0.3.4"

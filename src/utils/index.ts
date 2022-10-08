@@ -5,8 +5,12 @@ export function getCookie(cName: string) {
             cStart = cStart + cName.length + 1;
             let cEnd = document.cookie.indexOf(";", cStart);
             if (cEnd === -1) cEnd = document.cookie.length;
-            return unescape(document.cookie.substring(cStart, cEnd));
+            return decodeURIComponent(document.cookie.substring(cStart, cEnd));
         }
     }
     return "";
 }
+//    config.headers!['X-CSRFToken'] = getCookie('csrftoken');
+
+//Cookie 库
+//const csrftoken = Cookies.get('csrftoken');
