@@ -9,6 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-    import { defineComponent,reactive } from 'vue';
+    import { reactive } from 'vue';
 
 </script>

@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router";
-import { StateKey, store } from "./store";
-// import 'element-plus/dist/index.css';
-// //import 'element-plus/dist/base.css';
+import { StateKey, useStore } from "./store";
 import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
+import { createPinia } from 'pinia';
+
 
 const app = createApp(App)
 
@@ -19,6 +19,8 @@ plugins.forEach(plugin => {
     app.use(plugin)
 })
 
+
 app.use(router);
-app.use(store, StateKey);
+app.use(createPinia())
+// app.use(useStore, StateKey);
 app.mount('#app')

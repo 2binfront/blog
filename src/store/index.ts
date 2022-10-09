@@ -1,6 +1,7 @@
 import { InjectionKey } from "vue-demi";
-import { createStore, Store } from "vuex";
+//import { createStore, Store } from "vuex";
 import { Nav, User } from "../types";
+import { defineStore, Store } from 'pinia'
 
 export interface State {
     user: User,
@@ -8,11 +9,11 @@ export interface State {
     navs: Array<Nav>,
 }
 
-export const StateKey: InjectionKey<Store<State>> = Symbol();
+export const StateKey = Symbol();
 
-export const SET_USER = 'setUser';
-export const CLEAR_USER = 'clearUser';
-export const SET_NAV_INDEX = 'srtNavIndex';
+// export const SET_USER = 'setUser';
+// export const CLEAR_USER = 'clearUser';
+// export const SET_NAV_INDEX = 'srtNavIndex';
 
 export const initDefaultUserInfo = (): User => {
     let user: User = {
@@ -29,8 +30,8 @@ export const initDefaultUserInfo = (): User => {
     return user;
 }
 
-export const store = createStore<State>({
-    state() {
+export const useStore = defineStore('main', {
+    state: (): State => {
         return {
             user: initDefaultUserInfo(),
             navIndex: '1',
@@ -63,17 +64,18 @@ export const store = createStore<State>({
             ]
         }
     },
-    mutations: {
-        setUser(state: object | any, userInfo: object | any) {
+    actions: {
+        setUser(userInfo: object | any) {
             for (const prop in userInfo) {
-                state[prop] = userInfo[prop];
+                (this.user as any).prop = userInfo[prop];
+                //Object.defineProperty(this, prop, userInfo[prop]);
             }
         },
-        clearUser(state: object | any) {
-            state.user = initDefaultUserInfo();
+        clearUser() {
+            this.user = initDefaultUserInfo();
         },
-        setNavIndex(state: object | any, navIndex: string) {
-            state.navIndex = navIndex
+        setNavIndex(navIndex: string) {
+            this.navIndex = navIndex
         }
     }
 })

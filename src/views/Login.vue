@@ -1,182 +1,166 @@
+//后台登录
 <template>
   <div class="login-container">
-    <el-form
-      ref="state.loginForm"
-      :model="state.loginForm"
-      :rules="rules"
-      autocomplete="on"
-      class="login-form"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="state.loginForm" :rules="rules" autocomplete="on" class="login-form"
+      label-position="left">
       <div class="title-container">
         <h3 class="title">博客管理后台</h3>
       </div>
 
       <el-form-item prop="account">
-        <el-input
-        v-focus
-          ref="state.loginForm.account"
-          v-model="state.loginForm.account"
-          autocomplete="on"
-          name="account"
-          placeholder="Account"
-          tabindex="1"
-          type="text"
-        />
+        <el-input ref="account" v-model="state.loginForm.account" autocomplete="on" name="account" placeholder="Account"
+          tabindex="1" type="text" />
       </el-form-item>
 
-      <el-tooltip
-        v-model="state.capsTooltip"
-        content="Caps lock is On"
-        manual
-        placement="right"
-      >
+      <el-tooltip v-model="state.capsTooltip" content="Caps lock is On" manual placement="right">
         <el-form-item prop="password">
-          <el-input
-            :key="state.passwordType"
-            ref="state.loginForm.password"
-            v-model="state.loginForm.password"
-            :type="state.passwordType"
-            autocomplete="on"
-            name="password"
-            placeholder="Password"
-            tabindex="2"
-            @blur="state.capsTooltip = false"
-            @keyup="checkCapslock"
-            @keyup.enter="handleLogin"
-          />
+          <el-input :key="state.passwordType" ref="password" v-model="state.loginForm.password"
+            :type="state.passwordType" autocomplete="on" name="password" placeholder="Password" tabindex="2"
+            @blur="state.capsTooltip = false" @keyup="checkCapslock" @keyup.enter="handleLogin" />
         </el-form-item>
       </el-tooltip>
-      <p class="fp" @click="startFp">Forget password</p>
+      <p class="fp" @click="startFp(loginForm)">Forget password</p>
 
-      <el-button
-        :loading="state.loading"
-        style="width: 100%; margin-bottom: 30px"
-        type="primary"
-        @click.prevent="handleLogin"
-      >
+      <el-button :loading="state.loading" style="width: 100%; margin-bottom: 30px" type="primary"
+        @click.prevent="handleLogin(loginForm)">
         Login
       </el-button>
     </el-form>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ElMessage,ElMessageBox } from "element-plus";
-import { computed, nextTick, onMounted, ref } from "vue";
+<script setup lang="ts">
+import { Axios, AxiosResponse } from "axios";
+import { ElMessage, ElMessageBox, FormInstance, FormItemInstance, FormItemRule } from "element-plus";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import { forgetPassword, login } from "../api/service";
 import router from "../router";
-import { SET_USER, store } from "../store";
+import { useStore } from "../store";
 import { User } from "../types";
 
+// DOM operation
+const account = ref<FormItemInstance>();
+const password = ref<FormItemInstance>();
+const loginForm = ref<FormInstance>();
+
+const store = useStore();
+
 const validatePassword = (rule: any, value: string, callback: Function) => {
-      if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
-      } else {
-        callback();
-      }
-    };
-const state = ref({
-      loginForm: {
-        account: "",
-        password: "",
+  if (value.length < 6) {
+    callback(new Error("The password can not be less than 6 digits"));
+  } else {
+    callback();
+  }
+};
+const state = reactive({
+  loginForm: {
+    account: "",
+    password: "",
+  },
+  loginRules: {
+    account: [{ required: true, trigger: "blur" }],
+    password: [
+      {
+        required: true,
+        trigger: "blur",
+        validator: validatePassword,
       },
+    ],
+  },
+  forgetRules: {
+    account: [{ required: true, trigger: "blur" }],
+  },
+  passwordType: "password",
+  capsTooltip: false,
+  loading: false,
+  //是否忘记密码
+  isFP: false,
+});
 
-      loginRules: {
-        account: [{ required: true, trigger: "blur" }],
-        password: [
-          {
-            required: true,
-            trigger: "blur",
-            validator: validatePassword,
-          },
-        ],
-      },
-      forgetRules: {
-        account: [{ required: true, trigger: "blur" }],
-      },
-      passwordType: "password",
-      capsTooltip: false,
-      loading: false,
-      isFP: false,
-    });
-onMounted(()=>{
-      if (state.loginForm.account === "") {
-        state.loginForm.account.value.focus();
-      } else if (state.loginForm.password === "") {
-        state.loginForm.password.value.focus();
-      }
-    });
+onMounted(() => {
+  if (state.loginForm.account === "") {
 
-const rules = computed(()=>{
-  return state.value.isFP ? state.value.forgetRules : state.value.loginRules;
+    (account.value as any).focus();
+  } else if (state.loginForm.password === "") {
+
+    (password.value as any).focus();
+  }
+});
+
+const rules = computed(() => {
+  return state.isFP ? state.forgetRules : state.loginRules;
 })
+// const rules = () => {
+//   return state.isFP ? state.forgetRules : state.loginRules;
+// }
 
 function checkCapslock(e: KeyboardEvent) {
-      const { key } = e;
-      state.value.capsTooltip =Boolean(key && key.length === 1 && key >= "A" && key <= "Z");
-    };
-function handleLogin() {
-  state.value.isFP = false;
-      state.loginForm.value.validate(async (valid: Boolean) => {
-        if (valid) {
-          state.value.loading = true;
-          const req = {
-            username: state.loginForm.account,
-            password: state.loginForm.password,
-          };
-          try {
-            const data: any = await login(req);
-            const user: User = {
-              id: data.id,
-              username: data.username,
-              avatar: data.avatar,
-              email: data.email,
-              nickname: data.nickname,
-            };
+  const { key } = e;
+  state.capsTooltip = Boolean(key && key.length === 1 && key >= "A" && key <= "Z");
+};
 
-            store.commit(SET_USER, {
-              user,
-            });
-            window.sessionStorage.userInfo = JSON.stringify(user);
-            await router.push({
-              path: "/admin",
-            });
-            state.value.loading = false;
-          } catch (e) {
-            state.value.loading = false;
+function handleLogin(loginForm: FormInstance | undefined) {
+  state.isFP = false;
+  //validate: (callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>
+  loginForm!.validate(async (valid: Boolean) => {
+    if (valid) {
+      state.loading = true;
+      const req = {
+        username: state.loginForm.account,
+        password: state.loginForm.password,
+      };
+      try {
+        const data: any = await login(req);
+        const user: User = {
+          id: data.id,
+          username: data.username,
+          avatar: data.avatar,
+          email: data.email,
+          nickname: data.nickname,
+        };
+
+        store.setUser(user);
+        window.sessionStorage.userInfo = JSON.stringify(user);
+        await router.push({
+          path: "/admin",
+        });
+        state.loading = false;
+      } catch (e) {
+        state.loading = false;
+      }
+    }
+  });
+};
+
+//忘记密码处理逻辑
+function startFp(loginForm: FormInstance | undefined) {
+  state.isFP = true;
+  loginForm!.clearValidate();
+  nextTick(() => {
+    loginForm!.validate((valid: Boolean) => {
+      if (valid) {
+        ElMessageBox.confirm(
+          "We will send a new password to " + state.loginForm.account, "Tip",
+          {
+            confirmButtonText: "OK",
+            cancelButtonText: "Cancel",
+            type: "warning",
           }
-        }
-      });
-    };
-function startFp() {
-      state.value.isFP = true;
-      state.loginForm.clearValidate();
-      nextTick(() => {
-        state.loginForm.validate((valid: Boolean) => {
-          if (valid) {
-            ElMessageBox.confirm(
-                "We will send a new password to "+state.loginForm.account,"Tip",
-              {
-                confirmButtonText: "OK",
-                cancelButtonText: "Cancel",
-                type: "warning",
-              }
-            ).then(() => {
-              forgetPassword({ account: state.loginForm.account }).then((data) => {
-                  if (!data.error) {
-                    // ElMessage({message: "success!",duration: 1.5 * 1000,});
-                    ElMessage.success({
-                      message: 'success!',
-                      duration: 1.5 * 1000,
-                    });
-                  }
-                 } );
+        ).then(() => {
+          forgetPassword({ account: state.loginForm.account }).then((data: AxiosResponse<any>) => {
+            if (!(data.data).error) {
+              // ElMessage({message: "success!",duration: 1.5 * 1000,});
+              ElMessage.success({
+                message: 'success!',
+                duration: 1.5 * 1000,
+              });
+            }
+          });
         });
-       }
-        });
-      });
-  };
+      }
+    });
+  });
+};
 </script>
 
 

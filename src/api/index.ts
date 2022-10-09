@@ -21,6 +21,7 @@ const request = axios.create({
 // })
 
 request.interceptors.response.use(
+    // ! 对响应数据做点什么
     (response: AxiosResponse) => {
         const data = response.data
         console.log('response => ', response)
@@ -50,9 +51,10 @@ request.interceptors.response.use(
                 duration: 1.5 * 1000
             })
         }
-
         return data
     },
+    // ! 对响应错误做点什么
+    // ! AxiosError，解构赋值
     ({ message, response }) => {
         console.log('err => ', message, response) // for debug
         if (response && response.data && response.data.detail) {
