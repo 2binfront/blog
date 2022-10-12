@@ -8,17 +8,14 @@ import { createPinia } from 'pinia';
 
 const app = createApp(App)
 
-const plugins = [
-    ElLoading,
-    ElMessage,
-    ElMessageBox,
-];
-
-
-plugins.forEach(plugin => {
-    app.use(plugin)
-})
-
+// const plugins = [
+//     ElLoading,
+//     ElMessage,
+//     ElMessageBox,
+// ];
+// plugins.forEach(plugin => {
+//     app.use(plugin)
+// })
 
 app.use(router);
 app.use(createPinia())

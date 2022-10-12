@@ -28,5 +28,6 @@ declare module '@vue/runtime-core' {
     RegisterAndLogin: typeof import('./src/components/RegisterAndLogin.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserDetail: typeof import('./src/components/UserDetail.vue')['default']
   }
 }

@@ -8,120 +8,97 @@
           </router-link>
         </el-col>
         <el-col :span="16">
-          <el-menu :default-active="navIndex" :router="true" active-text-color="#409EFF" class="el-menu-demo"
+          <el-menu :default-active="store.navIndex" :router="true" active-text-color="#409EFF" class="el-menu-demo"
             mode="horizontal">
-            <el-menuItem v-for="r in navs" :key="r.index" :index="r.index" :route="r.path">
+            <el-menuItem v-for="r in store.navs" :key="r.index" :index="r.index" :route="r.path">
               {{ r.name }}
             </el-menuItem>
           </el-menu>
         </el-col>
-        <el-col v-if="isLogin" :span="5">
+        <el-col v-if="store.user.id > 0" :span="5">
           <div class="nav-right">
             <el-dropdown>
               <span class="el-dropdown-link">
-                {{ userInfo.nickname ? userInfo.nickname : userInfo.username
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
+                {{ store.user.nickname ? store.user.nickname : store.user.username}}
+                <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
               </span>
-              <img v-if="!userInfo.avatar" alt="avatar" class="user-img" src="../assets/user.png" />
-              <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="avatar" class="user-img" />
+              <img v-if="!store.user.avatar" alt="avatar" class="user-img" src="../assets/user.png" />
+              <img v-if="store.user.avatar" :src="store.user.avatar" alt="avatar" class="user-img" />
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="handleClick">登 出</el-dropdown-item>
+                  <el-dropdown-item @click="handleClick('')">登 出</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
           </div>
         </el-col>
         <el-col v-else :span="4">
-          <div class="nav-right" v-if="!isLogin">
+          <div class="nav-right" v-if="!(store.user.id > 0)">
             <el-button size="small" type="primary" @click="handleClick('login')">
               登 录</el-button>
             <el-button size="small" type="danger" @click="handleClick('register')">
               注 册
             </el-button>
           </div>
-          <RegisterAndLogin :handle-flag="state.handleFlag" :visible="state.visible" />
+          <RegisterAndLogin :handle-flag="state.handleFlag" :visible="state.visible" @ok="handleOk"
+            @cancel="handleCancel" />
         </el-col>
       </el-row>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from "vue";
-import { User } from "../types";
-import { useStore } from "vuex";
-import { CLEAR_USER, SET_NAV_INDEX, StateKey } from "../store";
+<script setup lang="ts">
+import { reactive, watch } from "vue";
+import { useStore } from '../store'
 import RegisterAndLogin from "./RegisterAndLogin.vue";
 import { logout } from "../api/service";
-
-export default defineComponent({
-  name: "Nav",
-  components: { RegisterAndLogin },
-  computed: {
-    userInfo(): User {
-      const store = useStore(StateKey);
-      return store.state.user;
-    },
-    isLogin(): Boolean {
-      return this.userInfo.id > 0;
-    },
-    navs(){
-      const store = useStore(StateKey);
-      return store.state.navs;
-    },
-    navIndex() {
-      const store = useStore(StateKey);
-      return store.state.navIndex;
-    },
-  },
-  watch: {
-    $route: {
-      handler(val: any, oldVal: any) {
-        this.routeChange(val, oldVal);
-      },
-      immediate: true,
-    },
-  },
-  setup() {
-    const state = reactive({
-      handleFlag: "",
-      visible: false,
-      title: "主页",
-    });
-
-    const store = useStore(StateKey);
-
-    const routeChange = (newRoute: any, oldRoute: any): void => {
-      for (let i = 0; i < store.state.navs.length; i++) {
-        const l = store.state.navs[i];
-        if (l.path === newRoute.path) {
-          state.title = l.name;
-          store.commit(SET_NAV_INDEX, l.index);
-          return;
-        }
-      }
-      store.commit(SET_NAV_INDEX, "-1");
-    };
-
-    const handleClick = async (route: string) => {
-      if (["login", "register"].includes(route)) {
-        state.handleFlag = route;
-        state.visible = true;
-      } else {
-        await logout();
-        window.sessionStorage.userInfo = "";
-        store.commit(CLEAR_USER);
-      }
-    };
-
-    return {
-      state,
-      handleClick,
-      routeChange,
-    };
-  },
+import { useRoute } from "vue-router";
+const store = useStore();
+const state = reactive({
+  handleFlag: "",
+  visible: false,
+  title: "主页",
 });
+const route = useRoute();
+
+watch(() => route.path,
+  (val: any, oldVal: any) => {
+    routeChange(val, oldVal);
+  },
+  //{ immediate: true, }
+);
+
+const routeChange = (newRoute: any, oldRoute: any): void => {
+  for (let i = 0; i < store.navs.length; i++) {
+    const l = store.navs[i];
+    if (l.path === newRoute) {
+      state.title = l.name;
+      store.setNavIndex(l.index);
+      return;
+    }
+  }
+  store.setNavIndex("-1");
+};
+
+const handleClick = async (route: string) => {
+  if (["login", "register"].includes(route)) {
+    state.handleFlag = route;
+    state.visible = true;
+  } else {
+    await logout();
+    window.sessionStorage.userInfo = "";
+    store.clearUser();
+  }
+};
+
+const handleOk = (value: boolean): void => {
+  state.visible = value;
+};
+
+const handleCancel = (value: boolean): void => {
+  state.visible = value;
+};
 </script>
 
 <style lang="less">
@@ -150,7 +127,7 @@ export default defineComponent({
     border-bottom: none;
   }
 
-  .el-menu--horizontal > .el-menu-item {
+  .el-menu--horizontal>.el-menu-item {
     cursor: pointer;
     color: #333;
   }
@@ -174,5 +151,4 @@ export default defineComponent({
     }
   }
 }
-
 </style>

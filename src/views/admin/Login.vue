@@ -1,4 +1,4 @@
-//后台登录
+<!-- 管理员后台登录 -->
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="state.loginForm" :rules="rules" autocomplete="on" class="login-form"
@@ -16,7 +16,7 @@
         <el-form-item prop="password">
           <el-input :key="state.passwordType" ref="password" v-model="state.loginForm.password"
             :type="state.passwordType" autocomplete="on" name="password" placeholder="Password" tabindex="2"
-            @blur="state.capsTooltip = false" @keyup="checkCapslock" @keyup.enter="handleLogin" />
+            @blur="state.capsTooltip = false" @keyup="checkCapslock" @keyup.enter="handleLogin(loginForm)" />
         </el-form-item>
       </el-tooltip>
       <p class="fp" @click="startFp(loginForm)">Forget password</p>
@@ -30,13 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { Axios, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { ElMessage, ElMessageBox, FormInstance, FormItemInstance, FormItemRule } from "element-plus";
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
-import { forgetPassword, login } from "../api/service";
-import router from "../router";
-import { useStore } from "../store";
-import { User } from "../types";
+import { forgetPassword, login } from "../../api/service";
+import router from "../../router";
+import { useStore } from "../../store";
+import { State, User } from "../../types";
+
+
 
 // DOM operation
 const account = ref<FormItemInstance>();
@@ -52,7 +54,7 @@ const validatePassword = (rule: any, value: string, callback: Function) => {
     callback();
   }
 };
-const state = reactive({
+const state = reactive<State>({
   loginForm: {
     account: "",
     password: "",
@@ -90,15 +92,13 @@ onMounted(() => {
 const rules = computed(() => {
   return state.isFP ? state.forgetRules : state.loginRules;
 })
-// const rules = () => {
-//   return state.isFP ? state.forgetRules : state.loginRules;
-// }
 
 function checkCapslock(e: KeyboardEvent) {
   const { key } = e;
   state.capsTooltip = Boolean(key && key.length === 1 && key >= "A" && key <= "Z");
 };
 
+//管理员登录
 function handleLogin(loginForm: FormInstance | undefined) {
   state.isFP = false;
   //validate: (callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>
@@ -120,6 +120,7 @@ function handleLogin(loginForm: FormInstance | undefined) {
         };
 
         store.setUser(user);
+
         window.sessionStorage.userInfo = JSON.stringify(user);
         await router.push({
           path: "/admin",
@@ -149,7 +150,6 @@ function startFp(loginForm: FormInstance | undefined) {
         ).then(() => {
           forgetPassword({ account: state.loginForm.account }).then((data: AxiosResponse<any>) => {
             if (!(data.data).error) {
-              // ElMessage({message: "success!",duration: 1.5 * 1000,});
               ElMessage.success({
                 message: 'success!',
                 duration: 1.5 * 1000,
