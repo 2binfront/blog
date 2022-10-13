@@ -50,3 +50,21 @@ export interface ResponseData {
     results?: any;
     detail?: string;
 }
+
+export interface ResponseDataAxios {
+    code: number;
+    data?: any;
+    message: string;
+}
+
+export interface Tag {
+    id: number,
+    name: string,
+    created_at: string,
+    modified_at: string,
+}
+
+export interface TagList {
+    count: number,
+    results: Array<Tag> | any
+}

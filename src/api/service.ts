@@ -1,5 +1,5 @@
 import request from "./index";
-import { User, ResponseData } from "../types"
+import { User, ResponseData, Tag, TagList } from "../types"
 //请求接口代码
 export function getUserList(params: any) {
     return request({
@@ -55,5 +55,41 @@ export function saveUser(method: string, data: User) {
         url: '/user/' + data.id + '/',
         method,
         data,
+    }) as unknown as ResponseData
+}
+
+export function getTagList(params: any) {
+    return request({
+        url: '/tag/',
+        method: 'get',
+        params,
+    }) as unknown as TagList
+}
+
+export function saveTag(method: string, data: Tag) {
+    let url = '/tag/'
+    if (['put', 'patch'].includes(method)) {
+        url += data.id + '/'
+    }
+    // @ts-ignore
+    return request({
+        url,
+        method,
+        data,
+    }) as unknown as ResponseData
+}
+
+export function addTag(data: Tag) {
+    return request({
+        url: '/tag/',
+        method: 'post',
+        data,
+    }) as unknown as ResponseData
+}
+
+export function deleteTag(id: number) {
+    return request({
+        url: '/tag/' + id + '/',
+        method: 'delete',
     }) as unknown as ResponseData
 }

@@ -62,13 +62,6 @@ const state = reactive({
 });
 const route = useRoute();
 
-watch(() => route.path,
-  (val: any, oldVal: any) => {
-    routeChange(val, oldVal);
-  },
-  //{ immediate: true, }
-);
-
 const routeChange = (newRoute: any, oldRoute: any): void => {
   for (let i = 0; i < store.navs.length; i++) {
     const l = store.navs[i];
@@ -80,6 +73,13 @@ const routeChange = (newRoute: any, oldRoute: any): void => {
   }
   store.setNavIndex("-1");
 };
+
+watch(() => route.path,
+  (val: any, oldVal: any) => routeChange(val, oldVal),
+  { immediate: true, }
+);
+
+
 
 const handleClick = async (route: string) => {
   if (["login", "register"].includes(route)) {
