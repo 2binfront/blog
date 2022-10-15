@@ -1,5 +1,5 @@
 import request from "./index";
-import { User, ResponseData, Tag, TagList } from "../types"
+import { User, ResponseData, Tag, TagList, Article, ArticleArray, ArticleParams, Catalog } from "../types"
 //请求接口代码
 export function getUserList(params: any) {
     return request({
@@ -92,4 +92,85 @@ export function deleteTag(id: number) {
         url: '/tag/' + id + '/',
         method: 'delete',
     }) as unknown as ResponseData
+}
+
+export function getCatalogTree() {
+    return request({
+        url: '/catalog/',
+        method: 'get',
+    }) as unknown as Array<Catalog>
+}
+
+export function saveCatalog(method: string, data: Catalog) {
+    let url = '/catalog/'
+    if (['put', 'patch'].includes(method)) {
+        url += data.id + '/'
+    }
+    // @ts-ignore
+    return request({
+        url,
+        method,
+        data,
+    }) as unknown as ResponseData
+
+}
+
+export function deleteCatalog(catalogId: number) {
+
+    return request({
+        url: '/catalog/' + catalogId + '/',
+        method: 'delete',
+    }) as unknown as ResponseData
+
+}
+
+export function getArticleList(params: ArticleParams) {
+    return request({
+        url: '/list/',
+        method: 'get',
+        params
+    }) as unknown as ArticleArray
+}
+
+export function remoteDeleteArticle(articleId: number) {
+    return request({
+        url: '/article/' + articleId + '/',
+        method: 'delete',
+    }) as unknown as ResponseData
+}
+
+export function getArticleDetail(articleId: number) {
+    return request({
+        url: '/article/' + articleId + '/',
+        method: 'get',
+    }) as unknown as Article
+}
+
+export function remoteSaveArticle(method: string, data: Article) {
+    let url = '/article/'
+    if (['put', 'patch'].includes(method)) {
+        url += data.id + '/'
+    }
+    // @ts-ignore
+    return request({
+        url,
+        method,
+        data,
+    }) as unknown as Article
+}
+
+export function remotePublishArticle(articleId: number) {
+
+    // @ts-ignore
+    return request({
+        url: '/publish/' + articleId + '/',
+        method: 'patch',
+    }) as unknown as Article
+}
+
+export function remoteOfflineArticle(articleId: number) {
+    return request({
+        url: '/offline/' + articleId + '/',
+        method: 'patch',
+    }) as unknown as Article
 }

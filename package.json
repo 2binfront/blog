@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
+    "@kangc/v-md-editor": "^1.7.11",
+    "@types/node": "18.8.0",
     "axios": "^0.27.2",
     "element-plus": "^2.2.16",
+    "highlight.js": "^11.6.0",
     "pinia": "^2.0.22",
-    "vue": "^3.2.37",
+    "vue": "^3.2.41",
     "vue-router": "^4.0.13"
   },
   "devDependencies": {
@@ -31,6 +34,6 @@
     "unplugin-auto-import": "^0.11.2",
     "unplugin-vue-components": "^0.22.4",
     "vite": "^3.0.7",
-    "vue-tsc": "^1.0.3"
+    "vue-tsc": "^1.0.8"
   }
 }

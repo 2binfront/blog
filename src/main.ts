@@ -1,23 +1,19 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router";
-import { StateKey, useStore } from "./store";
-import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
 import { createPinia } from 'pinia';
+import VMdEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+import hljs from 'highlight.js';
 
+VMdEditor.use(githubTheme, {
+    Hljs: hljs,
+});
 
-const app = createApp(App)
-
-// const plugins = [
-//     ElLoading,
-//     ElMessage,
-//     ElMessageBox,
-// ];
-// plugins.forEach(plugin => {
-//     app.use(plugin)
-// })
+const app = createApp(App);
 
 app.use(router);
 app.use(createPinia())
-// app.use(useStore, StateKey);
 app.mount('#app')

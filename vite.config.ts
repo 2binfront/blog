@@ -37,6 +37,13 @@ export default defineConfig({
         rewrite: (pathStr) => pathStr.replace('/api', ''),
         timeout: 5000,
       },
+      '/upload': {
+        target: 'http://localhost:8000/',
+        changeOrigin: true,
+        ws: false,
+        rewrite: (pathStr) => pathStr.replace('/api', ''),
+        timeout: 5000,
+      },
     },
   },
 });
