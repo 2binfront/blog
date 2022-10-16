@@ -1,5 +1,5 @@
 import request from "./index";
-import { User, ResponseData, Tag, TagList, Article, ArticleArray, ArticleParams, Catalog } from "../types"
+import { User, ResponseData, Tag, TagList, Article, ArticleArray, ArticleParams, Catalog, CommentPara, NumberInfo, Like, PageInfo } from "../types"
 //请求接口代码
 export function getUserList(params: any) {
     return request({
@@ -174,3 +174,61 @@ export function remoteOfflineArticle(articleId: number) {
         method: 'patch',
     }) as unknown as Article
 }
+
+
+export function getCommentList(params: CommentPara) {
+    return request({
+        url: '/comment/',
+        method: 'get',
+        params,
+    }) as unknown as ResponseData
+}
+
+export function getTopArticleList() {
+    return request({
+        url: '/top/',
+        method: 'get',
+    }) as unknown as ResponseData
+}
+
+export function getNumbers() {
+    return request({
+        url: '/number/',
+        method: 'get',
+    }) as unknown as NumberInfo
+}
+
+export function postLikeArticle(data: Like) {
+    return request({
+        url: '/like/',
+        method: 'post',
+        data,
+    })
+}
+
+export function getArticleComments(articleId: number) {
+    return request({
+        url: '/comment/',
+        method: 'get',
+        params: {
+            article: articleId,
+        },
+    }) as unknown as ResponseData
+}
+
+export function addComment(data: CommentPara) {
+    return request({
+        url: '/comment/',
+        method: 'post',
+        data
+    })
+}
+
+export function getArchiveList(params: PageInfo) {
+    return request({
+        url: '/archive/',
+        method: 'get',
+        params
+    })
+}
+

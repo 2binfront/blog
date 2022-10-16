@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { fa } from 'element-plus/es/locale'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -20,7 +19,6 @@ export default defineConfig({
   ],
   // 公共路径，默认值为‘/’
   // base: '/',
-
   //
   server: {
     //host为前端服务器监听IP，默认为localhost，为0.0.0.0时监听所有IP

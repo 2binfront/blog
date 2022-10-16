@@ -46,6 +46,33 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'ArticleManagement',
                 component: () => import("../views/admin/Article.vue"),
             },
+            {
+                path: '/admin/comment',
+                name: 'CommentManagement',
+                component: () => import("../views/admin/Comment.vue"),
+            },
+            {
+                path: '/article',
+                name: 'ArticleDetail',
+                component: () => import("../views/client/ArticleDetail.vue")
+            },
+            {
+                path: '/catalog',
+                name: 'Catalog',
+                component: () => import("../views/client/Catalog.vue")
+            },
+            {
+                path: "/archive/",
+                name: "Archive",
+                component: () => import("../views/client/Archive.vue")
+            },
+            {
+                path: '/about',
+                name: 'About',
+                component: () => import("../views/client/ArticleDetail.vue")
+            },
+
+
         ]
     },
 

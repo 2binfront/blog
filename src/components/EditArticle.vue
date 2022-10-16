@@ -41,118 +41,107 @@
 
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from "vue";
+<script setup lang="ts">
+import { ElMessage, ElMessageBox } from "element-plus";
+import { reactive, ref, watch } from "vue";
 import { getArticleDetail, getCatalogTree, getTagList, remoteSaveArticle } from "../api/service";
 import { Article, Catalog, Tag, TagList } from "../types";
 import { getCookie } from "../utils";
 
-export default defineComponent({
-    name: "EditArticle",
-    props: {
-        articleId: {
-            type: Number,
-            require: true,
-            default: undefined,
-        },
-        visible: {
-            type: Boolean,
-            require: true,
-        }
-    },
-    watch: {
-        '$props.visible': {
-            handler(val: Boolean, oldVal: Boolean) {
-                if (val !== oldVal) {
-                    this.state.visible = val
-                }
-            }
-        }
-    },
-    emits: ["close",],
-    setup(props, context) {
-        const state = reactive({
-            article: {} as Article,
-            loading: false,
-            visible: false as Boolean,
-            catalogTree: [] as Array<Catalog>,
-            tags: [] as Array<Tag>,
-            catalogs: [] as Array<number>
-        })
 
-
-        const saveArticle = async () => {
-            try {
-                state.loading = true
-                if (state.catalogs.length) {
-                    state.article.catalog = state.catalogs[state.catalogs.length - 1]
-                }
-                if (props.articleId) {
-                    await remoteSaveArticle('put', state.article)
-                } else {
-                    await remoteSaveArticle('post', state.article)
-                }
-                state.loading = false
-                context.emit('close', true)
-            } catch (e) {
-                state.loading = false
-            }
-        }
-        const csrfToken = { 'X-CSRFToken': getCookie('csrftoken') }
-        return {
-            state, saveArticle, csrfToken
-        }
-    },
-    methods: {
-        async handleSearch() {
-            this.$refs.articleTitle.focus()
-            if (this.$props.articleId) {
-                this.state.article = await getArticleDetail(this.$props.articleId)
-                this.state.article.tags = this.state.article.tags_info.map((tag: Tag) => tag.id)
-                this.state.catalogs = this.state.article.catalog_info.parents
-            } else {
-                this.state.article = {} as Article
-            }
-            this.state.catalogTree = await getCatalogTree()
-
-
-            if (!this.state.tags.length) {
-                const tags: TagList = await getTagList({})
-                this.state.tags = tags.results
-            }
-        },
-        handleClose(done: any) {
-            this.$confirm('确认关闭抽屉?', '提示', {
-                confirmButtonText: '关闭',
-                cancelButtonText: '取消',
-                type: 'warning'
-            })
-                .then((_: any): void => {
-                    this.$emit("close", false)
-                    this.state.article = {} as Article
-                    done();
-                })
-                .catch((_: any): void => {
-                    console.error(_)
-                });
-        },
-        handleAvatarSuccess(res: any, file: File) {
-            this.state.article.cover = res.url
-        },
-        beforeAvatarUpload(file: File) {
-            const isImage = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type);
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isImage) {
-                this.$message.error('上传图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传图片大小不能超过 2MB!');
-            }
-            return isImage && isLt2M;
-        }
+const props = defineProps<{
+    articleId: number;
+    visible: boolean;
+}>();
+watch(() => props.visible, (val, oldVal) => handler(val, oldVal));
+function handler(val: boolean, oldVal: boolean) {
+    if (val !== oldVal) {
+        state.visible = val
     }
+}
+const emit = defineEmits(["close",]);
+
+const state = reactive({
+    article: {} as Article,
+    loading: false,
+    visible: false as Boolean,
+    catalogTree: [] as Array<Catalog>,
+    tags: [] as Array<Tag>,
+    catalogs: [] as Array<number>
 })
+
+const articleTitle = ref(null);
+
+const saveArticle = async () => {
+    try {
+        state.loading = true
+        if (state.catalogs.length) {
+            state.article.catalog = state.catalogs[state.catalogs.length - 1]
+        }
+        if (props.articleId) {
+            await remoteSaveArticle('put', state.article)
+        } else {
+            await remoteSaveArticle('post', state.article)
+        }
+        state.loading = false
+        emit('close', true)
+    } catch (e) {
+        state.loading = false
+    }
+}
+const csrfToken = { 'X-CSRFToken': getCookie('csrftoken') };
+
+
+async function handleSearch() {
+    articleTitle.value.focus()
+    if (props.articleId) {
+        state.article = await getArticleDetail(props.articleId)
+        state.article.tags = state.article.tags_info.map((tag: Tag) => tag.id)
+        state.catalogs = state.article.catalog_info.parents
+    } else {
+        state.article = {} as Article
+    }
+    state.catalogTree = await getCatalogTree()
+
+
+    if (!state.tags.length) {
+        const tags: TagList = await getTagList({})
+        state.tags = tags.results
+    }
+}
+function handleClose(done: any) {
+    ElMessageBox.confirm('确认关闭抽屉?', '提示', {
+        confirmButtonText: '关闭',
+        cancelButtonText: '取消',
+        type: 'warning'
+    })
+        .then((_: any): void => {
+            emit("close", false)
+            state.article = {} as Article
+            done();
+        })
+        .catch((_: any): void => {
+            console.error(_)
+        });
+}
+
+function handleAvatarSuccess(res: any, file: File) {
+    state.article.cover = res.url
+}
+
+function beforeAvatarUpload(file: File) {
+    const isImage = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type);
+    const isLt2M = file.size / 1024 / 1024 < 2;
+
+    if (!isImage) {
+        ElMessage.error('上传图片只能是 JPG 格式!');
+    }
+    if (!isLt2M) {
+        ElMessage.error('上传图片大小不能超过 2MB!');
+    }
+    return isImage && isLt2M;
+}
+
 </script>
 
 <style lang="less">

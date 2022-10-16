@@ -57,6 +57,7 @@ export interface ResponseDataAxios {
     message: string;
 }
 
+//标签
 export interface Tag {
     id: number,
     name: string,
@@ -78,6 +79,7 @@ export interface Catalog {
 
 }
 
+//文章
 export interface Article {
     id: number,
     title: string,
@@ -113,4 +115,49 @@ export interface ArticleParams {
     catalog: number | any,
     page: number,
     page_size: number,
+}
+
+//评论类型
+export interface CommentInfo {
+    id: number,
+    user: number,
+    user_info: User | any,
+    article: number,
+    article_info: Article | any,
+    created_at: string,
+    reply: number | any,
+    content: string,
+    comment_replies: CommentInfo | any,
+}
+
+export interface CommentPara {
+    user: number,
+    article: number,
+    reply: number | any,
+    content: string,
+    page: number,
+    page_size: number
+}
+
+export interface NumberInfo {
+    views: number,
+    likes: number,
+    comments: number,
+    messages: number
+}
+
+//点赞
+export interface Like {
+    article: number,
+    user: number,
+}
+
+export interface PageInfo {
+    page: number,
+    page_size: number
+}
+
+export interface ArticleArchiveList {
+    year: number,
+    list: Array<Article> | any
 }

@@ -7,7 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ArticleList: typeof import('./src/components/ArticleList.vue')['default']
     CatalogTree: typeof import('./src/components/CatalogTree.vue')['default']
+    Comment: typeof import('./src/components/Comment.vue')['default']
+    CommentList: typeof import('./src/components/CommentList.vue')['default']
     EditArticle: typeof import('./src/components/EditArticle.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -31,7 +34,9 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    EndLoading: typeof import('./src/components/EndLoading.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Loading: typeof import('./src/components/Loading.vue')['default']
     Nav: typeof import('./src/components/Nav.vue')['default']
     RegisterAndLogin: typeof import('./src/components/RegisterAndLogin.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

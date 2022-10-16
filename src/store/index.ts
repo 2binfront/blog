@@ -1,12 +1,13 @@
 import { InjectionKey } from "vue-demi";
 //import { createStore, Store } from "vuex";
-import { Nav, User } from "../types";
+import { ArticleParams, Nav, User } from "../types";
 import { defineStore, Store } from 'pinia'
 
 export interface State {
     user: User,
     navIndex: string,
     navs: Array<Nav>,
+    articleParams: ArticleParams,
 }
 
 export const StateKey = Symbol();
@@ -30,10 +31,26 @@ export const initDefaultUserInfo = (): User => {
     return user;
 }
 
+const initDefaultArticleParams = (): ArticleParams => {
+    let params: ArticleParams = {
+        title: undefined,
+        status: 'Published',
+        tags: undefined,
+        catalog: undefined,
+        page: 1,
+        page_size: 10,
+    }
+    if (window.sessionStorage.articleParams) {
+        params = JSON.parse(window.sessionStorage.articleParams);
+    }
+    return params;
+}
+
 export const useStore = defineStore('main', {
     state: (): State => {
         return {
             user: initDefaultUserInfo(),
+            articleParams: initDefaultArticleParams(),
             navIndex: '1',
             navs: [
                 {
@@ -76,6 +93,17 @@ export const useStore = defineStore('main', {
         },
         setNavIndex(navIndex: string) {
             this.navIndex = navIndex
+        },
+        setArticleParams(params: object) {
+            this.articleParams = { ...this.articleParams, ...params }
+        },
+        setNavIndexByRoute( route: string) {
+            const index = this.navs.findIndex(r => r.path === route)
+            if (this.navIndex === this.navs[index].index)
+                return
+            if (index > -1) {
+                this.setNavIndex(this.navs[index].index)
+            }
         }
     }
 })

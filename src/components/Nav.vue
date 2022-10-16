@@ -54,6 +54,7 @@ import { useStore } from '../store'
 import RegisterAndLogin from "./RegisterAndLogin.vue";
 import { logout } from "../api/service";
 import { useRoute } from "vue-router";
+
 const store = useStore();
 const state = reactive({
   handleFlag: "",
@@ -65,7 +66,7 @@ const route = useRoute();
 const routeChange = (newRoute: any, oldRoute: any): void => {
   for (let i = 0; i < store.navs.length; i++) {
     const l = store.navs[i];
-    if (l.path === newRoute) {
+    if (l.path === newRoute.path) {
       state.title = l.name;
       store.setNavIndex(l.index);
       return;
@@ -74,12 +75,10 @@ const routeChange = (newRoute: any, oldRoute: any): void => {
   store.setNavIndex("-1");
 };
 
-watch(() => route.path,
+watch(() => route,
   (val: any, oldVal: any) => routeChange(val, oldVal),
   { immediate: true, }
 );
-
-
 
 const handleClick = async (route: string) => {
   if (["login", "register"].includes(route)) {

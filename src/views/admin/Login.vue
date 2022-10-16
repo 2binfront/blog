@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { AxiosResponse } from "axios";
-import { ElMessage, ElMessageBox, FormInstance, FormItemInstance, FormItemRule } from "element-plus";
+import { ElMessage, ElMessageBox, FormInstance, FormItemInstance } from "element-plus";
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import { forgetPassword, login } from "../../api/service";
 import router from "../../router";
