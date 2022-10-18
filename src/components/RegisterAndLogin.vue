@@ -10,12 +10,12 @@
             <el-formItem v-if="isRegister" label="昵称" :label-width="state.formLabelWidth">
                 <el-input v-model="state.params.nickname" placeholder="用户名或昵称" autocomplete="off" />
             </el-formItem>
-            <el-formItem v-if="isRegister" label="手机" :label-width="state.formLabelWidth">
+            <!-- <el-formItem v-if="isRegister" label="手机" :label-width="state.formLabelWidth">
                 <el-input v-model="state.params.phone" placeholder="手机号" autocomplete="off" />
-            </el-formItem>
-            <el-formItem v-if="isRegister" label="简介" :label-width="state.formLabelWidth">
+            </el-formItem> -->
+            <!-- <el-formItem v-if="isRegister" label="简介" :label-width="state.formLabelWidth">
                 <el-input v-model="state.params.desc" placeholder="个人简介" autocomplete="off" />
-            </el-formItem>
+            </el-formItem> -->
         </el-form>
         <template v-slot:footer>
             <div class="dialog-footer">
@@ -36,6 +36,7 @@ import { login, register } from "../api/service";
 import { User } from "../types";
 import { ElMessage } from "element-plus";
 
+
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -46,10 +47,10 @@ const props = defineProps({
         default: false,
     },
 });
-const isLogin = computed((): Boolean => {
+const isLogin = computed((): boolean => {
     return props.handleFlag === "login";
 })
-const isRegister = computed((): Boolean => {
+const isRegister = computed((): boolean => {
     return props.handleFlag === "register";
 })
 const emit = defineEmits(["ok", "cancel"]);
@@ -64,10 +65,15 @@ const state = reactive({
         username: "",
         nickname: "",
         password: "",
-        phone: "",
-        desc: "",
+        is_active: true,
+        avatar: "",
+
     },
+
 });
+// is_active: true,
+//last_login: Date.now(),
+// desc: "",
 
 const submit = async (): Promise<void> => {
     let data: any = "";
@@ -79,7 +85,8 @@ const submit = async (): Promise<void> => {
         } else {
             data = await login(state.params);
         }
-        state.btnLoading = false;
+
+        // if ((data.status >= 200 && data.status <= 300) || data.status === 304) {
 
         const user: User = {
             id: data.id,
@@ -92,11 +99,15 @@ const submit = async (): Promise<void> => {
         store.setUser(user);
         window.sessionStorage.userInfo = JSON.stringify(user);
         emit("ok", false);
-        ElMessage({
-            message: "操作成功",
-            type: "success",
-        });
+        (() => ElMessage.success("get in successfully"))();
         state.dialogModel = false;
+        // } else {
+        //     ElMessage({
+        //         message: "注册失败",
+        //         type: "error",
+        //     });
+        // }
+        // state.btnLoading = false;
     } catch (e) {
         console.error(e);
         state.btnLoading = false;
@@ -134,14 +145,14 @@ const handleOk = (): void => {
             });
             return;
         }
-        const re = /^(((13[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9]))+\d{8})$/;
-        if (state.params.phone && !re.test(state.params.phone)) {
-            ElMessage({
-                message: "请输入正确的手机号!",
-                type: "warning",
-            });
-            return;
-        }
+        // const re = /^(((13[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9]))+\d{8})$/;
+        // if (state.params.phone && !re.test(state.params.phone)) {
+        //     ElMessage({
+        //         message: "请输入正确的手机号!",
+        //         type: "warning",
+        //     });
+        //     return;
+        // }
     }
     submit();
 };

@@ -9,17 +9,17 @@ import { getCookie } from "../utils";
 const request = axios.create({
     //访问接口的url前缀，代指部署路径，不为生产环境添加/api前缀，为生产路径则默认部署在域名根目录下
     baseURL: import.meta.env.MODE !== 'production' ? '/api' : '',
-    headers: { 'X-CSRFToken': getCookie('csrftoken') },
-    timeout: 1000,
+    // headers: { 'X-CSRFToken': getCookie('csrftoken') },
+    timeout: 50000,
 })
 
-// request.interceptors.request.use((config: AxiosRequestConfig) => {
-//     \// ? Django SessionAuthentication need csrf token
-//     config.headers!['X-CSRFToken'] = getCookie('csrftoken');
-//     \// ? config.headers = _.extend(config.headers, { 'X-CSRFToken' : getCookie('csrftoken') })
-//     \// ? Object.defineProperty(config.headers, 'X-CSRFToken', getCookie('csrftoken'));
-//     return config;
-// })
+request.interceptors.request.use((config: AxiosRequestConfig) => {
+    // ? Django SessionAuthentication need csrf token
+    config.headers!['X-CSRFToken'] = getCookie('csrftoken');
+    // ? config.headers = _.extend(config.headers, { 'X-CSRFToken' : getCookie('csrftoken') })
+    // ? Object.defineProperty(config.headers, 'X-CSRFToken', getCookie('csrftoken'));
+    return config;
+})
 
 // request.interceptors.response.use(
 //     // ! 对响应数据做点什么
@@ -83,17 +83,12 @@ request.interceptors.response.use(
     (res: AxiosResponse) => {
         // Some example codes here:
         // code == 0: success
-        
-        if (res.status === 200) {
-            const data: ResponseDataAxios = res.data;
-            if (data.code === 0) {
-                return data.data;
-            } else {
-                ElMessage({
-                    message: data.message,
-                    type: "error"
-                });
-            }
+
+        if ((res.status >= 200 && res.status <= 300) || res.status === 304) {
+            //debug
+            // console.log(res);
+            const data: any = res.data;
+            return data;
         } else {
             ElMessage({
                 message: "网络错误!",

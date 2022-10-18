@@ -83,6 +83,8 @@ const handleSearch = async (): Promise<void> => {
 const getUsers = async (): Promise<void> => {
     try {
         const data: ResponseData = await getUserList({}) as any;
+        // debug
+        console.log(data);
         state.userList = data.results;
     } catch (e) {
         console.error(e)

@@ -31,19 +31,18 @@
 
 <script setup lang="ts">
 import { AxiosResponse } from "axios";
-import { ElMessage, ElMessageBox, FormInstance, FormItemInstance } from "element-plus";
+import { ElMessage, ElMessageBox, FormInstance } from "element-plus";
+// import 'element-plus/es/components/message-box/style'
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import { forgetPassword, login } from "../../api/service";
 import router from "../../router";
 import { useStore } from "../../store";
-import { State, User } from "../../types";
-
-
+import { ResponseData, ResponseDataAxios, State, User } from "../../types";
 
 // DOM operation
-const account = ref<FormItemInstance>();
-const password = ref<FormItemInstance>();
-const loginForm = ref<FormInstance>();
+const account = ref(null);
+const password = ref(null);
+const loginForm = ref(null);
 
 const store = useStore();
 
@@ -82,10 +81,10 @@ const state = reactive<State>({
 onMounted(() => {
   if (state.loginForm.account === "") {
 
-    (account.value as any).focus();
+    account.value.focus();
   } else if (state.loginForm.password === "") {
 
-    (password.value as any).focus();
+    password.value.focus();
   }
 });
 
@@ -111,6 +110,7 @@ function handleLogin(loginForm: FormInstance | undefined) {
       };
       try {
         const data: any = await login(req);
+        // const data=res.data;
         const user: User = {
           id: data.id,
           username: data.username,
@@ -118,15 +118,16 @@ function handleLogin(loginForm: FormInstance | undefined) {
           email: data.email,
           nickname: data.nickname,
         };
-
+        //debug
+        // console.log(data);
         store.setUser(user);
-
         window.sessionStorage.userInfo = JSON.stringify(user);
         await router.push({
           path: "/admin",
         });
         state.loading = false;
       } catch (e) {
+        ElMessage.error(e.message);
         state.loading = false;
       }
     }

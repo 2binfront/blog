@@ -84,6 +84,9 @@ const handleSearch = async (): Promise<void> => {
     try {
         const data: ResponseData = await getUserList(state.params) as unknown as ResponseData;
         state.isLoading = false;
+        // debug
+        console.log(data);
+
         state.userList = data.results;
         state.total = data.count;
     } catch (e) {

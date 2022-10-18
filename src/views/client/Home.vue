@@ -75,6 +75,8 @@ const handleSearch = async (): Promise<void> => {
     try {
         const data: ArticleArray = await getArticleList(state.params);
         state.isLoading = false;
+        // debug
+        console.log(data);
         state.articlesList = [...state.articlesList, ...data.results];
         state.total = data.count;
         state.params.page++;
