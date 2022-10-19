@@ -117,6 +117,7 @@ function handleLogin(loginForm: FormInstance | undefined) {
           avatar: data.avatar,
           email: data.email,
           nickname: data.nickname,
+          is_superuser:data.is_superuser
         };
         //debug
         // console.log(data);

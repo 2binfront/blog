@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { Article, ArticleParams, Catalog } from "../../types";
 import { getCatalogTree } from "../../api/service";
 import Home from "./Home.vue";

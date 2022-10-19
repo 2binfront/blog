@@ -52,6 +52,33 @@ export const useStore = defineStore('main', {
             user: initDefaultUserInfo(),
             articleParams: initDefaultArticleParams(),
             navIndex: '1',
+            // navs: [
+            //     {
+            //         index: "1",
+            //         path: "/",
+            //         name: "主页",
+            //     },
+            //     {
+            //         index: "2",
+            //         path: "/catalog",
+            //         name: "分类"
+            //     },
+            //     {
+            //         index: "3",
+            //         path: "/archive",
+            //         name: "归档"
+            //     },
+            //     {
+            //         index: "4",
+            //         path: "/message",
+            //         name: "留言"
+            //     },
+            //     {
+            //         index: "5",
+            //         path: "/about",
+            //         name: "分类"
+            //     },
+            // ]
             navs: [
                 {
                     index: "1",
@@ -61,24 +88,19 @@ export const useStore = defineStore('main', {
                 {
                     index: "2",
                     path: "/catalog",
-                    name: "分类"
+                    name: "分类",
                 },
                 {
                     index: "3",
                     path: "/archive",
-                    name: "归档"
+                    name: "归档",
                 },
                 {
                     index: "4",
-                    path: "/message",
-                    name: "留言"
-                },
-                {
-                    index: "5",
                     path: "/about",
-                    name: "分类"
+                    name: "关于",
                 },
-            ]
+            ],
         }
     },
     actions: {
@@ -97,7 +119,7 @@ export const useStore = defineStore('main', {
         setArticleParams(params: object) {
             this.articleParams = { ...this.articleParams, ...params }
         },
-        setNavIndexByRoute( route: string) {
+        setNavIndexByRoute(route: string) {
             const index = this.navs.findIndex(r => r.path === route)
             if (this.navIndex === this.navs[index].index)
                 return

@@ -63,7 +63,7 @@ import { useStore } from "../../store";
 import Comment from "../../components/Comment.vue";
 
 let document: Document | any;
-const store = useStore()
+const store = useStore();
 
 const state = reactive({
     btnLoading: false,

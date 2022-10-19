@@ -20,7 +20,7 @@
             <el-dropdown>
               <span class="el-dropdown-link">
                 {{ store.user.nickname ? store.user.nickname : store.user.username}}
-                <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
+                <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <img v-if="!store.user.avatar" alt="avatar" class="user-img" src="../assets/user.png" />
               <img v-if="store.user.avatar" :src="store.user.avatar" alt="avatar" class="user-img" />

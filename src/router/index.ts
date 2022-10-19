@@ -1,13 +1,44 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { useStore } from "../store";
+
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "Home",
         component: () =>
-            //lazy load
             import("../views/client/Home.vue"),
         meta: {}
+    },
+    {
+        path: "/articles",
+        name: "Articles",
+        component: () =>
+            import("../views/client/Home.vue")
+    },
+    {
+        path: "/article/",
+        name: "ArticleDetail",
+        component: () =>
+            import("../views/client/ArticleDetail.vue")
+    },
+    {
+        path: '/catalog',
+        name: 'Catalog',
+        component: () =>
+            import("../views/client/Catalog.vue")
+    },
+    {
+        path: "/archive/",
+        name: "Archive",
+        component: () =>
+            import("../views/client/Archive.vue")
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: () =>
+            import("../views/client/ArticleDetail.vue")
     },
     {
         path: "/login/",
@@ -21,11 +52,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/admin/Admin.vue"),
         children: [
             {
-                path: '/admin',
+                path: '/admin/',
                 name: 'Dashboard',
                 component: () => import("../views/admin/Dashboard.vue"),
             },
-            //和上面的一样？
             {
                 path: '/admin/dashboard',
                 name: 'AdminDashboard',
@@ -51,37 +81,26 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'CommentManagement',
                 component: () => import("../views/admin/Comment.vue"),
             },
-            {
-                path: '/article',
-                name: 'ArticleDetail',
-                component: () => import("../views/client/ArticleDetail.vue")
-            },
-            {
-                path: '/catalog',
-                name: 'Catalog',
-                component: () => import("../views/client/Catalog.vue")
-            },
-            {
-                path: "/archive/",
-                name: "Archive",
-                component: () => import("../views/client/Archive.vue")
-            },
-            {
-                path: '/about',
-                name: 'About',
-                component: () => import("../views/client/ArticleDetail.vue")
-            },
-
-
         ]
     },
-
-];
+]
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
 
+router.beforeEach((to, from, next) => {
+    const store = useStore();
+    //假如尝试访问管理员目录但并非管理员和登录用户
+    if (/\/admin/i.test(to.path)
+        && (!(store.user.id && store.user.is_superuser))) {
+            //debug
+        console.log(store.user.is_superuser);
+        next('/login');
+        return;
+    }
+    next();
+})
 
 export default router;

@@ -5,7 +5,7 @@ export interface User {
     avatar: string | any,
     nickname: string | any,
     is_active?: boolean,
-    is_superuser?: boolean,
+    is_superuser: boolean,
     created_at?: string,
     last_login?: string,
 }
