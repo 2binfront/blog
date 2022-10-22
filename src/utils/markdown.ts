@@ -1,5 +1,5 @@
 import highlight, { HLJSOptions } from 'highlight.js'
-import marked from 'marked'
+import { marked } from 'marked'
 
 const tocObj = {
     add(text: any, level: any) {

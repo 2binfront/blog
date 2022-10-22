@@ -21,64 +21,6 @@ request.interceptors.request.use((config: AxiosRequestConfig) => {
     return config;
 })
 
-// request.interceptors.response.use(
-//     // ! 对响应数据做点什么
-//     (response: AxiosResponse) => {
-//         const data = response.data
-//         console.log('response => ', response)
-//         //未登录
-//         if (data.status === '401') {
-//             localStorage.removeItem('user');
-//             ElMessage({
-//                 message: data.error,
-//                 type: 'error',
-//                 duration: 1.5 * 1000
-//             });
-//             return router.push('/login');
-//         }
-//         // 
-//         else if (data.status === 'error') {
-//             ElMessage({
-//                 message: data.error || data.status,
-//                 type: 'error',
-//                 duration: 1.5 * 1000
-//             })
-//         }
-
-//         if (data.success === false && data.msg) {
-//             ElMessage({
-//                 message: data.msg,
-//                 type: 'error',
-//                 duration: 1.5 * 1000
-//             })
-//         }
-//         return data
-//     },
-//     // ! 对响应错误做点什么
-//     // ! AxiosError，解构赋值
-//     ({ message, response }) => {
-//         console.log('err => ', message, response) // for debug
-//         if (response && response.data && response.data.detail) {
-//             ElMessage({
-//                 message: response.data.detail,
-//                 type: 'error',
-//                 duration: 2 * 1000
-//             })
-//         } else {
-//             ElMessage({
-//                 message: message,
-//                 type: 'error',
-//                 duration: 2 * 1000
-//             })
-//         }
-//         if (response && (response.status === 403 || response.status === 401)) {
-//             localStorage.removeItem('user');
-//             return router.push('/login')
-//         }
-//         return Promise.reject(message);
-//     }
-// )
-
 request.interceptors.response.use(
     (res: AxiosResponse) => {
         // Some example codes here:

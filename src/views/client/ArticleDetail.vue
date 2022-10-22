@@ -6,7 +6,7 @@
                     <h1 class="title">{{ state.detail.title }}</h1>
                     <div class="author">
                         <div class="avatar">
-                            <img alt="hh" class="auth-logo" src="../../assets/myAvatar.jpg">
+                            <img alt="hh" class="auth-logo" src="../../assets/logo.jpeg">
                         </div>
                         <div class="info">
                             <span class="name">
@@ -36,7 +36,7 @@
                     <div id="content" class="article-detail" v-html="state.detail.html"></div>
                 </div>
                 <div class="heart">
-                    <el-button :loading="state.isLoading" icon="heart" size="large" type="danger" @click="likeArticle">
+                    <el-button :loading="state.isLoading" :icon="Star" size="large" type="danger" @click="likeArticle">
                         点赞
                     </el-button>
                 </div>
@@ -61,6 +61,7 @@ import { Article, Catalog, Like, Tag, } from "../../types";
 import { getArticleDetail, postLikeArticle } from "../../api/service";
 import { useStore } from "../../store";
 import Comment from "../../components/Comment.vue";
+import { Star } from "@element-plus/icons-vue";
 
 let document: Document | any;
 const store = useStore();

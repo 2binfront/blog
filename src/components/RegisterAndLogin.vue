@@ -95,6 +95,7 @@ const submit = async (): Promise<void> => {
             email: data.email,
             nickname: data.nickname,
             last_login: data.last_login,
+            is_superuser: false
         };
         store.setUser(user);
         window.sessionStorage.userInfo = JSON.stringify(user);

@@ -23,7 +23,7 @@
                 <el-table-column :formatter="datetimeFormatter" label="修改时间" prop="modified_at" />
                 <el-table-column fixed="right" label="操作" width="120">
                     <template #default="scope">
-                        <el-popconfirm cancelButtonText="取消" confirmButtonText="删除" icon="el-icon-info" iconColor="red"
+                        <el-popconfirm cancelButtonText="取消" confirmButtonText="删除" :icon="InfoFilled" iconColor="red"
                             title="确定删除系列吗？" @confirm="deleteObject(scope.$index, scope.row)">
                             <template #reference>
                                 <el-button size="small" type="text"> 删除 </el-button>
@@ -52,7 +52,7 @@ import { timestampToTime } from "../../utils";
 import { ElMessage } from "element-plus";
 import TagEditDialog from "../../components/TagEditDialog.vue";
 import { useRoute } from "vue-router";
-
+import { InfoFilled } from '@element-plus/icons-vue'
 const route = useRoute();
 watch(() => route.path, (val, oldVal) => handler(val, oldVal),
     { deep: true, }

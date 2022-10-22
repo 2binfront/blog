@@ -63,6 +63,7 @@ const state = reactive({
 });
 const route = useRoute();
 
+//局部监听路由变化，能否改到router守卫上
 const routeChange = (newRoute: any, oldRoute: any): void => {
   for (let i = 0; i < store.navs.length; i++) {
     const l = store.navs[i];
@@ -80,9 +81,9 @@ watch(() => route,
   { immediate: true, }
 );
 
-const handleClick = async (route: string) => {
-  if (["login", "register"].includes(route)) {
-    state.handleFlag = route;
+const handleClick = async (path: string) => {
+  if (["login", "register"].includes(path)) {
+    state.handleFlag = path;
     state.visible = true;
   } else {
     await logout();

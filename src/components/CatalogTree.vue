@@ -14,19 +14,19 @@
                                 </span>
                                 <template #dropdown>
                                     <el-dropdown-menu>
-                                        <el-dropdown-item icon="el-icon-edit">
+                                        <el-dropdown-item :icon="Edit">
                                             <a class="more-button" @click.prevent="showEditDialog(data)">
                                                 修改
                                             </a>
                                         </el-dropdown-item>
-                                        <el-dropdown-item icon="el-icon-circle-plus">
+                                        <el-dropdown-item :icon="CirclePlus">
                                             <a class="more-button" @click.prevent="showAddDialog(data)">
                                                 新增
                                             </a>
                                         </el-dropdown-item>
-                                        <el-dropdown-item icon="el-icon-delete-solid">
+                                        <el-dropdown-item :icon="Delete">
                                             <el-popconfirm :title="'确定删除【'+data.name+'】？'" cancelButtonText='取消'
-                                                confirmButtonText='删除' icon="el-icon-info" iconColor="red"
+                                                confirmButtonText='删除' :icon="InfoFilled" iconColor="red"
                                                 @confirm="remove(data)">
                                                 <template #reference>
                                                     <a class="more-button">
@@ -64,7 +64,7 @@ import { reactive, watch } from "vue";
 import { Catalog } from "../types";
 import { deleteCatalog, getCatalogTree, saveCatalog } from "../api/service";
 import { ElMessage } from "element-plus";
-
+import { Edit, CirclePlus, Delete, InfoFilled } from '@element-plus/icons-vue'
 const props = defineProps<{
     visible: boolean,
 }>();

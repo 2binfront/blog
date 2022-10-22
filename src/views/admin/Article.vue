@@ -19,7 +19,7 @@
         <div class="button-container">
             <el-button :loading="state.isLoading" type="primary" @click="showAddDrawer"><i class="el-icon-plus" /> 新 增
             </el-button>
-            <el-button circle icon="el-icon-s-unfold" @click="state.showCatalogTree=true" />
+            <el-button circle :icon="Fold" @click="state.showCatalogTree=true" />
         </div>
         <div>
             <el-table ref="articleTable" :data="state.articleList"
@@ -32,7 +32,7 @@
                 <el-table-column :formatter="datetimeFormatter" label="修改时间" prop="modified_at" />
                 <el-table-column fixed="right" label="操作" width="120">
                     <template #default="scope">
-                        <el-popconfirm cancelButtonText='取消' confirmButtonText='删除' icon="el-icon-info" iconColor="red"
+                        <el-popconfirm cancelButtonText='取消' confirmButtonText='删除' :icon="InfoFilled" iconColor="red"
                             title="确定删除该文章吗？" @confirm="deleteArticle(scope.$index,scope.row)">
                             <template #reference>
                                 <el-button size="small" type="text">
@@ -72,7 +72,7 @@ import { timestampToTime } from "../../utils";
 import { ElMessage } from "element-plus";
 import EditArticle from "../../components/EditArticle.vue";
 import CatalogTree from "../../components/CatalogTree.vue";
-
+import { Fold,InfoFilled } from '@element-plus/icons-vue'
 
 const state = reactive({
     articleList: [] as Array<Article>,

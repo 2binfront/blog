@@ -28,7 +28,7 @@
                 <el-table-column label="操作">
                     <template #default="scope">
                         <el-popconfirm v-if="scope.row.is_active" cancelButtonText='取消' confirmButtonText='禁用'
-                            icon="el-icon-info" iconColor="red" title="确定禁用该用户吗？"
+                            :icon="InfoFilled" iconColor="red" title="确定禁用该用户吗？"
                             @confirm="disableUser(scope.$index,scope.row)">
                             <template #reference>
                                 <el-button size="small" type="text">
@@ -62,6 +62,7 @@ import { ElMessage } from "element-plus";
 import { timestampToTime } from "../../utils";
 import { getUserList, saveUser } from "../../api/service";
 import UserDetail from "../../components/UserDetail.vue";
+import { InfoFilled } from "@element-plus/icons-vue";
 
 const state = reactive({
     userList: [] as Array<User>,

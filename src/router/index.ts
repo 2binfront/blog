@@ -94,10 +94,10 @@ router.beforeEach((to, from, next) => {
     const store = useStore();
     //假如尝试访问管理员目录但并非管理员和登录用户
     if (/\/admin/i.test(to.path)
-        && (!(store.user.id && store.user.is_superuser))) {
-            //debug
+        && (!(store.user.id && store.user.is_superuser === true))) {
+        //debug
         console.log(store.user.is_superuser);
-        next('/login');
+        next('/');
         return;
     }
     next();
