@@ -1,16 +1,147 @@
-# Vue 3 + TypeScript + Vite
+本博客前端参考https://www.longair.cn/、夜尽天明博客前端，后端直接采用https://www.longair.cn/后端Django项目，但对接口做了一定重构。
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 功能概况
 
-## Recommended IDE Setup
+###  用户管理
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+作为用户管理功能，我们需要处理管理员和不同用户两种不同角色，以此来区分用户登录后进入到哪一个页面。
 
-## Type Support For `.vue` Imports in TS
+作为个人博客，管理员就是我们自己，因此只需要一个账号，而且这个账号属于系统内置。
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+普通用户就是进入到博客网站浏览我们博客的人，可以是注册的用户，也可以是游客。
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+注册用户可以评论博客，登录后可以改密码，也可以退出登录。
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+#### 登录功能
+
+全面考虑登录功能注意点：
+
+- **<a style="color:red">账号和密码的格式</a>**
+- **支持邮箱、账号、**手机号码**登录**
+- 手机号码支持验证码登录
+- 密码错误的次数
+- **找回密码**
+- **注册功能**
+- 新用户首次登录自动注册功能
+- 社交平台账号鉴权登录
+- 支持记住账号
+- 7天自动登录
+- 登录状态保持
+- 权限鉴定
+- 登出
+- 密码修改
+
+在前后端分离的状态下，我们还需要考虑**跨域问题**等
+
+本博客主要考虑：
+
+- 账号和密码的格式--el表单验证
+- 支持邮箱、账号--el表单验证
+- 忘记密码功能--
+- 注册功能--register
+- 登录状态保持--sessionStorage
+- 权限鉴定--？
+- 登出
+- 密码修改
+
+以上功能点，满足博客网站基本需求
+
+- 未登录的游客只能留言，不能评论--
+- 用户、注册登录
+- 游客登录后可以评论博客--
+- 游客登录后可以修改密码--forgetPassword
+- 管理员登录后可以管理博客后台--如何实现？存在views/login页面，但暂无路由
+
+### 写博客（管理后台）
+
+管理后台主要是管理博客的内容，比如发表博客，下架博客，修改博客，分类，查看评论，查看用户等。
+
+1. **Dashboard**： 主要展示整个博客网站的访问情况，包括浏览量，点赞量，评论量，留言量等内容。
+2. **分类管理**：主要用来组织文章的分类，通过分类帮助用户更好的浏览整个博客网站。
+3. **标签管理**：主要用来管理文章的标签，标注文章的类型，帮助用户更好的识别文档的类型。
+4. **文章管理**：主要用来完成文章的新增，修改，发布，删除等，考虑到文章发布的方便，需要支持 `Markdown` 语法。
+5. **评论管理**：主要用来查看文章的评论信息，如果存在敏感内容，可以通过后台进行删除。
+6. **用户管理**：主要用来管理博客网站注册的用户信息，可以禁用用户等。
+
+**以上功能也算是一套2B端产品的核心功能框架。**
+
+### 看博客
+
+#### 标签管理
+
+方便灵活的给文章标记类型，所以才有标签管理，标签的属性很简单，就是一个名称
+
+游客可以查看所有发布的博客，可以通过注册功能注册成博客用户，然后发布博客的评论。
+
+#### 分类和文章
+
+文章和分类是关系比较密切的两个业务对象，因此这里把分类管理的功能和文章管理的功能放在同一个页面处理。
+
+作为一个完整的博客网站，前台是内容呈现的核心部分，大部分的博客搭建文章着重介绍的也是这一部分。这里我们从实际需要出发，整理了如下需求要点：
+
+1. **首页**： 主要展示整个博客网站的文章，一般按照发布时间倒序呈现，展示标题，摘要，浏览量，点赞量，评论量，留言量等内容，提供标签筛选
+2. **文章详情**：主要用来展示文章的详情，涵盖文章的所有细节，同时提供文章的章节目录导航、点赞、评论功能。
+3. **文章分类**：通过分类呈现文章列表，方便用户通过类型快速查找感兴趣的文章。
+4. **归档**：按照年份倒序呈现博客网站的文章列表。
+5. **关于**：一般介绍博客的博主情况和博客网站的主题信息。
+
+**以上功能也算是一套简单的个人博客网站的核心功能框架。**
+
+从首页，文章详情，文章分类，归档，关于五个部分呈现。这一部分的页面全部放在`src/views/client`文件中。
+
+首页的功能，实际上是一个文章列表展示，而分类页面是增加了一个分类树的文章列表展示，因此在设计页面的时候，将文章展示列表作为一个组件，这样分类展示可以通过列表和分类两个组件拼装而成。
+
+关于页面可以类比为一篇介绍博客和博主的文章详情页面，因此，可以将文章详情展示作为一个组件，这样可以完成对详情页和关于页的支撑。
+
+文章详情通过路径中的`query`参数传递文章id的方式区别不同的文章，这样的好处是方便文章可以通过url实现分享，比如想发表在公众号中，原文链接就可以直接用该`URL`
+
+## 注意事项、bug
+
+### bug
+
+- 登录界面混乱，用户登录和管理员登录没有完全分开，可以另写后台用户登录页面路由或直接隐藏入口，自己记录接口
+- 登录逻辑存疑，登录按钮连续按下两次后显示登录成功？  前后端数据通信逻辑需要检查
+- ~~部分提示信息没有外框包裹，message为后端信息，可据此排除~~
+- ~~管理员和用户可浏览界面区分存疑~~
+- 管理员增加文章编辑页面依赖包不兼容，需要替代kangc@v-md-editor的同类型包
+
+
+
+### 解决记录
+
+- 注册接口整理
+
+  ```
+  {
+    "username": "string",
+    "avatar": "string",
+    "email": "user@example.com",
+    "is_active": true,
+    "nickname": "string"
+  }
+  ```
+
+  据此修改前端传递的参数 ——RegisterAndLogin组件
+  
+  密码怎么办？？？？可以一起传，包括以上字段可以更多，不显式暴露
+  
+  后端注册、登录逻辑分离，接口耦合
+  
+  说到底读不到返回数据还是因为根本没有写好注册逻辑，调用的其实是userlist，所以没有id
+  
+- 样式失效———
+
+  WARNING
+
+  如果您使用 `unplugin-element-plus` 并且只使用组件 API，您需要手动导入样式。
+
+  示例︰
+
+  ```
+  import 'element-plus/es/components/message/style/css'
+  import { ElMessage } from 'element-plus'
+  ```
+  
+- 用户管理员登录混乱———
+
+  后端接口增加is_superuser字段，前端增加router导航守卫，阻拦普通用户和游客访问管理员操作
