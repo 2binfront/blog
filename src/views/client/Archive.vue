@@ -13,6 +13,7 @@
         </el-timeline>
     </div>
 </template>
+
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
 import { timestampToTime } from "../../utils";
@@ -42,7 +43,7 @@ const handleSearch = async (): Promise<void> => {
         const data: any = await getArchiveList(params)
         state.isLoading = false;
         // debug
-        console.log(data);
+        // console.log(data);
         state.articlesList = [...state.articlesList, ...data.results];
         state.total = data.count;
         state.params.page++;

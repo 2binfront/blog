@@ -1,8 +1,8 @@
 <template>
     <div class="left clearfix">
-        <h3 v-if="state.params.tags" class="left-title">
+        <!-- <h3 v-if="state.params.tags" class="left-title">
             {{ state.tag_name }} 相关的文章：
-        </h3>
+        </h3> -->
         <ArticleList :article-list="state.articlesList" />
         <Loading v-if="state.isLoading"></Loading>
         <EndLoading v-if="state.isLoadEnd"></EndLoading>
@@ -32,7 +32,7 @@ const state = reactive({
     isLoading: false,
     articlesList: [] as Array<Article>,
     total: 0,
-    tag_name: decodeURI(getQueryStringByName("tag_name")),
+    // tag_name: decodeURI(getQueryStringByName("tag_name")),
     params: {
         title: undefined,
         tags: undefined,
@@ -67,8 +67,6 @@ function handler(val: any, oldVal: any) {
     state.params.page = 1;
     handleSearch();
 }
-
-
 
 const handleSearch = async (): Promise<void> => {
     state.isLoading = true;

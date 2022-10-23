@@ -1,4 +1,7 @@
+> 持续更新
+
 本博客前端参考 https://www.longair.cn 、夜尽天明博客前端，后端直接采用 https://www.longair.cn 后端Django项目，但对接口做了一定重构。
+
 
 ## 功能概况
 

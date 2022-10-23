@@ -1,4 +1,3 @@
-<!-- 表格查看评论 -->
 <template>
     <div class="catalog">
         <div :style="{ 'min-height': height + 'px' }" class="catalog-tree">
