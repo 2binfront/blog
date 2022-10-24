@@ -4,7 +4,7 @@
             <el-timeline-item v-for="(l, i) in state.articlesList" :key="l.year" hide-timestamp placement="top">
                 <h3 class="year">{{ l.year }}</h3>
                 <el-timeline-item v-for="(item, index) in l.list" :key="item.id" hide-timestamp placement="top">
-                    <router-link :to="`/article/?id=${item.id}`" target="_blank">
+                    <router-link :to="`/article/?id=${item.id}`" >
                         <h3 class="title">{{ item.title }}</h3>
                     </router-link>
                     <p>{{ formatTime(item.created_at) }}</p>

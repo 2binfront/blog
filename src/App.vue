@@ -2,7 +2,7 @@
   <div class="container">
     <Nav />
     <div class="layout">
-      <router-view class="view-content" />
+      <router-view :key="$route.fullPath" class="view-content"></router-view>
     </div>
   </div>
 </template>

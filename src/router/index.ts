@@ -100,6 +100,8 @@ router.beforeEach((to, from, next) => {
         next('/');
         return;
     }
+    const defaultTitle = 'hh blog';
+    document.title = to.meta.title ? to.meta.title as string : defaultTitle
     next();
 })
 

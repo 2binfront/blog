@@ -3,7 +3,7 @@
     <div class="nav-content">
       <el-row :gutter="20">
         <el-col :span="3">
-          <router-link to="/">
+          <router-link to="/" replace>
             <img class="logo" src="../assets/logo.jpeg" alt="logo" />
           </router-link>
         </el-col>
@@ -99,6 +99,7 @@ const handleOk = (value: boolean): void => {
 const handleCancel = (value: boolean): void => {
   state.visible = value;
 };
+
 </script>
 
 <style lang="less">

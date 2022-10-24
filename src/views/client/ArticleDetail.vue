@@ -177,18 +177,6 @@ onMounted(() => {
     handleSearch();
 });
 
-onBeforeUnmount((): void => {
-    document.title = "hh-blog";
-    document
-        .getElementById("keywords")
-        .setAttribute("content", "hh 的博客网站");
-    document
-        .getElementById("description")
-        .setAttribute(
-            "content",
-            "分享知识")
-})
-
 </script>
 <style lang="less" scoped>
 .anchor {

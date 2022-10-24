@@ -9,7 +9,7 @@
                         src="/src/assets/cover.jpg" />
                 </a>
                 <div class="content">
-                    <a :href="href + article.id" target="_blank">
+                    <a :href="href + article.id" >
                         <h4 class="title">{{ article.title }}</h4>
                         <p class="abstract">{{ article.excerpt }}</p>
                     </a>

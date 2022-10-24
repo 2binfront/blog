@@ -85,9 +85,6 @@ const submit = async (): Promise<void> => {
         } else {
             data = await login(state.params);
         }
-
-        // if ((data.status >= 200 && data.status <= 300) || data.status === 304) {
-
         const user: User = {
             id: data.id,
             username: data.username,
@@ -102,13 +99,6 @@ const submit = async (): Promise<void> => {
         emit("ok", false);
         (() => ElMessage.success("get in successfully"))();
         state.dialogModel = false;
-        // } else {
-        //     ElMessage({
-        //         message: "注册失败",
-        //         type: "error",
-        //     });
-        // }
-        // state.btnLoading = false;
     } catch (e) {
         console.error(e);
         state.btnLoading = false;
@@ -146,18 +136,9 @@ const handleOk = (): void => {
             });
             return;
         }
-        // const re = /^(((13[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9]))+\d{8})$/;
-        // if (state.params.phone && !re.test(state.params.phone)) {
-        //     ElMessage({
-        //         message: "请输入正确的手机号!",
-        //         type: "warning",
-        //     });
-        //     return;
-        // }
-    }
-    submit();
-};
-
+        submit();
+    };
+}
 const cancel = (): boolean => {
     emit("cancel", false);
     return false;
