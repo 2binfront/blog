@@ -1,5 +1,5 @@
 <template>
-    <el-drawer v-model="state.visible" :before-close="handleClose" :title="articleId?'修改文章':'新增文章'" direction="rtl"
+    <el-drawer v-model="state.visible" :before-close="handleClose" :title="articleId ? '修改文章' : '新增文章'" direction="rtl"
         size="800px" @opened="handleSearch">
         <div class="article-form" style="overflow-y: auto">
             <el-form label-suffix="：" label-width="120px">
@@ -8,7 +8,7 @@
                 </el-form-item>
                 <el-form-item label="所属分类">
                     <el-cascader v-model="state.catalogs" :options="state.catalogTree"
-                        :props="{ checkStrictly: true, value:'id',label:'name',expandTrigger: 'hover'}" clearable
+                        :props="{ checkStrictly: true, value: 'id', label: 'name', expandTrigger: 'hover' }" clearable
                         size="medium" style="width: 100%" />
                 </el-form-item>
                 <el-form-item label="标签">
@@ -24,7 +24,7 @@
                     <v-md-editor v-model="state.article.markdown" height="600px"></v-md-editor>
                 </el-form-item>
                 <el-form-item label="封面">
-                    <el-upload :before-upload="beforeAvatarUpload" :headers="csrfToken"
+                    <el-upload :before-upload="beforeAvatarUpload" :headers="csrfToken" drag
                         :on-success="handleAvatarSuccess" :show-file-list="false" action="/api/upload/"
                         class="avatar-uploader">
                         <img v-if="state.article.cover" :src="state.article.cover" class="avatar">

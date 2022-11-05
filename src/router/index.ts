@@ -8,7 +8,9 @@ const routes: Array<RouteRecordRaw> = [
         name: "Home",
         component: () =>
             import("../views/client/Home.vue"),
-        meta: {}
+        meta: {
+            title:'hh blog'
+        }
     },
     {
         path: "/articles",
@@ -100,8 +102,7 @@ router.beforeEach((to, from, next) => {
         next('/');
         return;
     }
-    const defaultTitle = 'hh blog';
-    document.title = to.meta.title ? to.meta.title as string : defaultTitle
+
     next();
 })
 

@@ -102,7 +102,7 @@ function viewArticle(id: number) {
             id
         }
     });
-    window.open(href, "_blank");
+    window.open(href, "_self");
 }
 
 </script>

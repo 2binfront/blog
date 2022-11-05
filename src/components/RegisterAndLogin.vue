@@ -67,9 +67,7 @@ const state = reactive({
         password: "",
         is_active: true,
         avatar: "",
-
     },
-
 });
 // is_active: true,
 //last_login: Date.now(),
@@ -78,12 +76,17 @@ const state = reactive({
 const submit = async (): Promise<void> => {
     let data: any = "";
     state.btnLoading = true;
+    //debug
+    console.log(state.params)
     try {
         if (props.handleFlag === "register") {
             state.params.email = state.params.username;
             data = await register(state.params);
         } else {
-            data = await login(state.params);
+            //debug
+            console.log(state.params)
+            return;
+            //data = await login(state.params);
         }
         const user: User = {
             id: data.id,

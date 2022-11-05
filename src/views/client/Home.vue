@@ -32,7 +32,7 @@ const state = reactive({
     isLoading: false,
     articlesList: [] as Array<Article>,
     total: 0,
-    // tag_name: decodeURI(getQueryStringByName("tag_name")),
+    tag_name: decodeURI(getQueryStringByName("tag_name")),
     params: {
         title: undefined,
         tags: undefined,
@@ -59,7 +59,8 @@ const lazyload = throttle(() => {
     }
 }, 1000);
 
-watch(() => store.articleParams, (val, oldVal) => handler(val, oldVal))
+watch(() => store.articleParams, (val, oldVal) => handler(val, oldVal));
+
 function handler(val: any, oldVal: any) {
     state.params.tags = val.tags;
     state.params.catalog = val.catalog;
@@ -73,8 +74,6 @@ const handleSearch = async (): Promise<void> => {
     try {
         const data: ArticleArray = await getArticleList(state.params);
         state.isLoading = false;
-        // debug
-        console.log(data);
         state.articlesList = [...state.articlesList, ...data.results];
         state.total = data.count;
         state.params.page++;
@@ -107,8 +106,6 @@ onMounted(() => {
     document.addEventListener("scroll", lazyload);
     handleSearch();
 });
-
-
 </script>
 
 

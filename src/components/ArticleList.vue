@@ -1,10 +1,9 @@
 <!-- 通过点击文章，在一个新的页面中查看文章详情 -->
-
 <template>
     <ul id="list" class="articles-list">
         <transition-group name="el-fade-in">
             <li v-for="article in articleList" :key="article.id" class="item">
-                <a :href="href + article.id" target="_blank">
+                <a :href="href + article.id">
                     <img :data-src="article.cover" alt="文章封面" class="wrap-img img-blur-done" data-has-lazy-src="false"
                         src="/src/assets/cover.jpg" />
                 </a>

@@ -101,6 +101,8 @@ const handleSearch = async (): Promise<void> => {
     state.isLoading = true;
     try {
         const data: any = await getArticleDetail(state.params);
+        //debug
+        console.log(data)
         state.isLoading = false;
 
         state.detail = data;
@@ -176,6 +178,7 @@ if (route.path === '/about') {
 onMounted(() => {
     handleSearch();
 });
+
 
 </script>
 <style lang="less" scoped>
