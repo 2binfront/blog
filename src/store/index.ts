@@ -1,7 +1,6 @@
-import { InjectionKey } from "vue-demi";
 //import { createStore, Store } from "vuex";
 import { ArticleParams, Nav, User } from "../types";
-import { defineStore, Store } from 'pinia'
+import { defineStore } from 'pinia'
 
 export interface State {
     user: User,
@@ -119,8 +118,9 @@ export const useStore = defineStore('main', {
         setArticleParams(params: object) {
             this.articleParams = { ...this.articleParams, ...params }
         },
+        //和setNavIndex一起负责view跳转
         setNavIndexByRoute(route: string) {
-            const index = this.navs.findIndex(r => r.path === route)
+            const index = this.navs.findIndex((r: { path: string; }) => r.path === route)
             if (this.navIndex === this.navs[index].index)
                 return
             if (index > -1) {

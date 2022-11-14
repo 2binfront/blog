@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
 import _ from "lodash";
 import router from "../router";
-import { ResponseDataAxios } from "../types";
 import { getCookie } from "../utils";
 
 //配置 Axios 实例
@@ -13,6 +12,7 @@ const request = axios.create({
     timeout: 50000,
 })
 
+//interceptors，访问接口前为请求报文header加上token
 request.interceptors.request.use((config: AxiosRequestConfig) => {
     // ? Django SessionAuthentication need csrf token
     config.headers!['X-CSRFToken'] = getCookie('csrftoken');
@@ -21,6 +21,7 @@ request.interceptors.request.use((config: AxiosRequestConfig) => {
     return config;
 })
 
+//提取解析返回信息，错误则reject
 request.interceptors.response.use(
     (res: AxiosResponse) => {
         // Some example codes here:

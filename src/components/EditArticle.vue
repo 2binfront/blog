@@ -53,12 +53,7 @@ const props = defineProps<{
     articleId: number;
     visible: boolean;
 }>();
-watch(() => props.visible, (val, oldVal) => handler(val, oldVal));
-function handler(val: boolean, oldVal: boolean) {
-    if (val !== oldVal) {
-        state.visible = val
-    }
-}
+
 const emit = defineEmits(["close",]);
 
 const state = reactive({
@@ -71,6 +66,13 @@ const state = reactive({
 })
 
 const articleTitle = ref(null);
+
+watch(() => props.visible, (val, oldVal) => handler(val, oldVal));
+function handler(val: boolean, oldVal: boolean) {
+    if (val !== oldVal) {
+        state.visible = val
+    }
+}
 
 const saveArticle = async () => {
     try {
@@ -91,7 +93,6 @@ const saveArticle = async () => {
 }
 const csrfToken = { 'X-CSRFToken': getCookie('csrftoken') };
 
-
 async function handleSearch() {
     articleTitle.value.focus()
     if (props.articleId) {
@@ -103,12 +104,12 @@ async function handleSearch() {
     }
     state.catalogTree = await getCatalogTree()
 
-
     if (!state.tags.length) {
         const tags: TagList = await getTagList({})
         state.tags = tags.results
     }
 }
+
 function handleClose(done: any) {
     ElMessageBox.confirm('确认关闭抽屉?', '提示', {
         confirmButtonText: '关闭',

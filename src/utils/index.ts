@@ -1,3 +1,4 @@
+//获取对应cookieName的value
 export function getCookie(cName: string) {
     if (document.cookie.length > 0) {
         let cStart = document.cookie.indexOf(cName + "=");
@@ -11,7 +12,6 @@ export function getCookie(cName: string) {
     return "";
 }
 //    config.headers!['X-CSRFToken'] = getCookie('csrftoken');
-
 //Cookie 库
 //const csrftoken = Cookies.get('csrftoken');
 
