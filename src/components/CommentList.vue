@@ -58,7 +58,6 @@
 import { ElMessage } from "element-plus";
 import {
     defineAsyncComponent,
-    defineComponent,
     onMounted,
     reactive,
 } from "vue";
@@ -110,7 +109,7 @@ const showCommentModal = (
 ): boolean | void => {
     if (!window.sessionStorage.userInfo) {
         ElMessage({
-            message: "登录才能点赞，请先登录！",
+            message: "登录才能回复，请先登录！",
             type: "warning",
         });
         return false;
@@ -129,6 +128,7 @@ onMounted(() => {
 });
 
 </script>
+
 <style lang="less" scoped>
 .comment-list {
     text-align: center;

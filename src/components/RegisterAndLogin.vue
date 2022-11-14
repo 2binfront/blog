@@ -150,8 +150,8 @@ const cancel = (): boolean => {
 watch(props, (val, oldVal) => {
     state.dialogModel = val.visible;
 });
-
 </script>
+
 <style scoped>
 .dialog-footer {
     text-align: right;

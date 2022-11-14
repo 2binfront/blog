@@ -17,7 +17,7 @@
             </el-form>
         </div>
         <div>
-            <el-table ref="userTable" :data="state.userList" :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+            <el-table ref="userTable" :data="state.userList" :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
                 stripe>
                 <el-table-column type="selection" width="55" />
                 <el-table-column label="ID" prop="id" width="80" />
@@ -29,7 +29,7 @@
                     <template #default="scope">
                         <el-popconfirm v-if="scope.row.is_active" cancelButtonText='取消' confirmButtonText='禁用'
                             :icon="InfoFilled" iconColor="red" title="确定禁用该用户吗？"
-                            @confirm="disableUser(scope.$index,scope.row)">
+                            @confirm="disableUser(scope.$index, scope.row)">
                             <template #reference>
                                 <el-button size="small" type="text">
                                     禁用
@@ -80,6 +80,7 @@ const state = reactive({
     saveLoading: false,
 });
 
+//管理员访问所有用户列表
 const handleSearch = async (): Promise<void> => {
     state.isLoading = true;
     try {

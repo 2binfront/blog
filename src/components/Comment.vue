@@ -1,5 +1,6 @@
 <!-- 新增评论 -->
 <template>
+    <!-- 评论文章 -->
     <div v-if="forArticle" class="comment">
         <el-input v-model="state.content" placeholder="文明社会，理性评论" type="textarea" />
         <el-button :loading="state.btnLoading" style="margin-top: 15px" type="primary" @click="handleOk">
@@ -7,6 +8,7 @@
         </el-button>
     </div>
 
+    <!--首先是v-else，，其次是与 state.showDialog 绑定，评论回复-->
     <el-dialog v-else v-model="state.showDialog" title="评论" width="60%" @close="cancel">
         <el-form>
             <el-form-item>

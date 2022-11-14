@@ -25,7 +25,7 @@
                                             </a>
                                         </el-dropdown-item>
                                         <el-dropdown-item :icon="Delete">
-                                            <el-popconfirm :title="'确定删除【'+data.name+'】？'" cancelButtonText='取消'
+                                            <el-popconfirm :title="'确定删除【' + data.name + '】？'" cancelButtonText='取消'
                                                 confirmButtonText='删除' :icon="InfoFilled" iconColor="red"
                                                 @confirm="remove(data)">
                                                 <template #reference>
@@ -45,14 +45,14 @@
         </div>
     </el-drawer>
     <el-dialog v-model="state.showDialog" :title="state.dialogTitle">
-        <el-form class="form" label-suffix="：" label-width="120px" size="medium">
+        <el-form class="form" label-suffix=":" label-width="120px" size="medium">
             <el-form-item label="目录名称">
                 <el-input v-model="state.catalog.name" autocomplete="off"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="state.showDialog=false">取 消</el-button>
+                <el-button @click="state.showDialog = false">取 消</el-button>
                 <el-button :loading="state.loading" type="primary" @click="saveCatalogLocal">保 存</el-button>
             </span>
         </template>

@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import { timestampToTime } from "../../utils";

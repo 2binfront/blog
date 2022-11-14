@@ -25,6 +25,7 @@ export function logout() {
     })
 }
 
+//问题出在这里，后端注册接口并没有保存密码的逻辑
 export function register(data: any) {
     return request({
         url: '/user/',
