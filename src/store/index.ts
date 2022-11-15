@@ -9,12 +9,6 @@ export interface State {
     articleParams: ArticleParams,
 }
 
-export const StateKey = Symbol();
-
-// export const SET_USER = 'setUser';
-// export const CLEAR_USER = 'clearUser';
-// export const SET_NAV_INDEX = 'srtNavIndex';
-
 export const initDefaultUserInfo = (): User => {
     let user: User = {
         id: 0,

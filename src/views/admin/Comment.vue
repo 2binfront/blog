@@ -20,7 +20,7 @@
         </div>
         <div>
             <el-table ref="articleTable" :data="state.commentList"
-                :header-cell-style="{background:'#eef1f6',color:'#606266'}" stripe>
+                :header-cell-style="{ background: '#eef1f6', color: '#606266' }" stripe>
                 <el-table-column type="selection" width="55" />
                 <el-table-column label="ID" prop="id" width="80" />
                 <el-table-column label="评论者" prop="user_info.name" width="200" />
@@ -46,10 +46,8 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { Article, CommentInfo, CommentPara, ResponseData, User } from "../../types";
-import { ElMessage } from "element-plus";
 import { timestampToTime } from "../../utils";
 import { getCommentList, getUserList, saveUser } from "../../api/service";
-import UserDetail from "../../components/UserDetail.vue";
 import { useRouter } from "vue-router";
 
 const state = reactive({

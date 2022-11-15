@@ -37,7 +37,7 @@ import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import { forgetPassword, login } from "../../api/service";
 import router from "../../router";
 import { useStore } from "../../store";
-import { ResponseData, ResponseDataAxios, State, User } from "../../types";
+import { State, User } from "../../types";
 
 // DOM operation
 const account = ref(null);
