@@ -25,7 +25,6 @@ import { getArticleList } from "../../api/service";
 import ArticleList from "../../components/ArticleList.vue";
 import { useStore } from "../../store";
 
-
 const store = useStore();
 const state = reactive({
     isLoadEnd: false,
@@ -42,9 +41,10 @@ const state = reactive({
     } as ArticleParams,
 });
 
-//图片懒加载
 // 获取可视区域的高度
 const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+
+//图片懒加载
 const lazyload = throttle(() => {
     const imgs = document.querySelectorAll("#list .item img");
     let num = 0;
@@ -52,7 +52,7 @@ const lazyload = throttle(() => {
         // 用可视区域高度减去元素顶部距离可视区域顶部的高度
         let distance = viewHeight - imgs[i].getBoundingClientRect().top;
         let imgItem: any = imgs[i];
-        // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出
+        // 露出高度超过100px
         if (distance >= 100) {
             // 给元素写入真实的 src，展示图片
             let hasLaySrc = imgItem.getAttribute("data-has-lazy-src");

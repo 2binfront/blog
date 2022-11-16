@@ -45,33 +45,6 @@ export const useStore = defineStore('main', {
             user: initDefaultUserInfo(),
             articleParams: initDefaultArticleParams(),
             navIndex: '1',
-            // navs: [
-            //     {
-            //         index: "1",
-            //         path: "/",
-            //         name: "主页",
-            //     },
-            //     {
-            //         index: "2",
-            //         path: "/catalog",
-            //         name: "分类"
-            //     },
-            //     {
-            //         index: "3",
-            //         path: "/archive",
-            //         name: "归档"
-            //     },
-            //     {
-            //         index: "4",
-            //         path: "/message",
-            //         name: "留言"
-            //     },
-            //     {
-            //         index: "5",
-            //         path: "/about",
-            //         name: "分类"
-            //     },
-            // ]
             navs: [
                 {
                     index: "1",

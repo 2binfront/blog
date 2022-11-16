@@ -31,7 +31,6 @@ body {
   margin: 0 auto;
 }
 
-
 img {
   vertical-align: bottom;
 }

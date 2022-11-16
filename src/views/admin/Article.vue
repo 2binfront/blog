@@ -145,7 +145,7 @@ const datetimeFormatter = (row: Article, column: number, cellValue: string, inde
     return timestampToTime(cellValue, true);
 }
 
-handleSearch();
+
 
 const handleCloseDrawer = (isOk: boolean) => {
     state.showDrawer = false
@@ -156,6 +156,7 @@ const handleCloseDrawer = (isOk: boolean) => {
 
 onMounted(() => {
     title.value.focus()
+    handleSearch();
 });
 
 function showEditDrawer(index: number, row: Article) {
