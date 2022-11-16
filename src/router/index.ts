@@ -92,7 +92,7 @@ const router = createRouter({
     routes,
 });
 
-//等效于导航守卫
+//全局前置导航守卫
 router.beforeEach((to, from, next) => {
     const store = useStore();
     //假如尝试访问管理员目录但并非管理员和登录用户
