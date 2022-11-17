@@ -1,3 +1,4 @@
+<!-- 固定在页面顶端的导航栏 -->
 <template>
   <div class="nav">
     <div class="nav-content">
@@ -19,7 +20,7 @@
           <div class="nav-right">
             <el-dropdown>
               <span class="el-dropdown-link">
-                {{ store.user.nickname ? store.user.nickname : store.user.username}}
+                {{ store.user.nickname ? store.user.nickname : store.user.username }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <img v-if="!store.user.avatar" alt="avatar" class="user-img" src="../assets/user.png" />
@@ -92,10 +93,10 @@ const handleClick = async (path: string) => {
   }
 };
 
+// 登录组件是否可见
 const handleOk = (value: boolean): void => {
   state.visible = value;
 };
-
 const handleCancel = (value: boolean): void => {
   state.visible = value;
 };

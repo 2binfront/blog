@@ -17,6 +17,7 @@
                 <el-input v-model="state.params.desc" placeholder="个人简介" autocomplete="off" />
             </el-formItem> -->
         </el-form>
+        <!-- 登录组件下面放个登录和注册组成的footer -->
         <template v-slot:footer>
             <div class="dialog-footer">
                 <el-button v-if="isLogin" :loading="state.btnLoading" type="primary" @click="handleOk">
@@ -36,7 +37,7 @@ import { login, register } from "../api/service";
 import { User } from "../types";
 import { ElMessage } from "element-plus";
 
-
+//这种写法更好，能设置默认值
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -47,12 +48,15 @@ const props = defineProps({
         default: false,
     },
 });
+
+
 const isLogin = computed((): boolean => {
     return props.handleFlag === "login";
 })
 const isRegister = computed((): boolean => {
     return props.handleFlag === "register";
 })
+
 const emit = defineEmits(["ok", "cancel"]);
 const store = useStore();
 const state = reactive({
@@ -73,6 +77,7 @@ const state = reactive({
 //last_login: Date.now(),
 // desc: "",
 
+// ! 提交登录信息（仅注册有效，需处理后端接口）
 const submit = async (): Promise<void> => {
     let data: any = "";
     state.btnLoading = true;
@@ -108,6 +113,7 @@ const submit = async (): Promise<void> => {
     }
 };
 
+//前端表单校验
 const handleOk = (): void => {
     const reg = new RegExp(
         "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+.){1,63}[a-z0-9]+$"

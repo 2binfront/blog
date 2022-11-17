@@ -1,3 +1,4 @@
+<!-- 用户管理页面 -->
 <template>
     <div>
         <div>
@@ -17,8 +18,8 @@
             </el-form>
         </div>
         <div>
-            <el-table ref="userTable" :data="state.userList" :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-                stripe>
+            <el-table ref="userTable" :data="state.userList"
+                :header-cell-style="{ background: '#eef1f6', color: '#606266' }" stripe>
                 <el-table-column type="selection" width="55" />
                 <el-table-column label="ID" prop="id" width="80" />
                 <el-table-column label="账号" prop="username" width="200" />
@@ -26,6 +27,7 @@
                 <el-table-column label="状态" prop="is_active" />
                 <el-table-column :formatter="datetimeFormatter" label="注册时间" prop="created_at" />
                 <el-table-column label="操作">
+
                     <template #default="scope">
                         <el-popconfirm v-if="scope.row.is_active" cancelButtonText='取消' confirmButtonText='禁用'
                             :icon="InfoFilled" iconColor="red" title="确定禁用该用户吗？"
@@ -44,6 +46,7 @@
                             详情
                         </el-button>
                     </template>
+
                 </el-table-column>
             </el-table>
 
@@ -52,6 +55,7 @@
             <el-pagination :page-size="10" :total="state.total" background layout="prev, pager, next"></el-pagination>
         </div>
     </div>
+
     <UserDetail :user-id="state.userId" :visible="state.showDialog" @close="state.showDialog = false" />
 </template>
 

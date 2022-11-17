@@ -1,9 +1,10 @@
+<!-- 用右侧浮出drawer详细展示用户信息 -->
 <template>
     <el-drawer v-model="state.visible" :before-close="handleClose" direction="rtl" size="500px" title="用户详情"
         @opened="handleSearch">
         <el-descriptions :column="1" border class="detail">
             <el-descriptions-item label="用户名">{{ state.user.username }}</el-descriptions-item>
-            <el-descriptions-item label="角色">{{ store.user.is_superuser? 'admin' : 'user' }}</el-descriptions-item>
+            <el-descriptions-item label="角色">{{ store.user.is_superuser ? 'admin' : 'user' }}</el-descriptions-item>
             <el-descriptions-item label="状态">{{ state.user.is_active }}</el-descriptions-item>
             <el-descriptions-item label="邮箱">{{ state.user.email }}</el-descriptions-item>
             <el-descriptions-item label="创建时间">{{ state.user.created_at }}</el-descriptions-item>
@@ -24,7 +25,7 @@ const props = defineProps<{
     //loading: boolean
 }>();
 
-const store=useStore();
+const store = useStore();
 
 const state = reactive({
     visible: props.visible,

@@ -22,6 +22,7 @@
                 <el-table-column label="名称" prop="name" width="200" />
                 <el-table-column :formatter="datetimeFormatter" label="修改时间" prop="modified_at" />
                 <el-table-column fixed="right" label="操作" width="120">
+
                     <template #default="scope">
                         <el-popconfirm cancelButtonText="取消" confirmButtonText="删除" :icon="InfoFilled" iconColor="red"
                             title="确定删除系列吗？" @confirm="deleteObject(scope.$index, scope.row)">
@@ -29,6 +30,7 @@
                                 <el-button size="small" type="text"> 删除 </el-button>
                             </template>
                         </el-popconfirm>
+                        <!-- 编辑可以新增和修改 -->
                         <el-button size="small" type="text" @click.prevent="showEditDialog(scope.$index, scope.row)">
                             编辑
                         </el-button>
@@ -40,6 +42,7 @@
             <el-pagination :page-size="10" :total="state.total" background layout="prev, pager, next"></el-pagination>
         </div>
     </div>
+
     <TagEditDialog :loading="state.saveLoading" :tag="state.tag" :visible="state.showDialog"
         @close="handleCloseDialog" />
 </template>
@@ -53,13 +56,16 @@ import { ElMessage } from "element-plus";
 import TagEditDialog from "../../components/TagEditDialog.vue";
 import { useRoute } from "vue-router";
 import { InfoFilled } from '@element-plus/icons-vue'
+
 const route = useRoute();
 watch(() => route.path, (val, oldVal) => handler(val, oldVal),
     { deep: true, }
 );
+
 function handler(val: any, oldVal: any) {
     if (val !== oldVal && ["/admin/tag"].includes(val)) handleSearch();
 }
+
 const state = reactive({
     tagList: [] as Array<Tag>,
     params: {
@@ -77,6 +83,7 @@ const state = reactive({
     saveLoading: false,
 });
 
+//获取当前taglist，更新页面
 const handleSearch = async (): Promise<void> => {
     state.isLoading = true;
     try {
@@ -92,6 +99,7 @@ const handleSearch = async (): Promise<void> => {
     }
 };
 
+//删除tag
 const deleteObject = async (index: number, row: Tag) => {
     await deleteTag(row.id);
     ElMessage({
@@ -109,7 +117,7 @@ const datetimeFormatter = (
 ) => {
     return timestampToTime(cellValue, true);
 };
-handleSearch();
+
 function showEditDialog(index: number, row: Tag) {
     state.tag = row;
     state.showDialog = true;
@@ -120,6 +128,7 @@ function showAddDialog() {
     state.showDialog = true;
 };
 
+//增、改标签
 async function handleCloseDialog(params: any) {
     if (!params.isOk) {
         state.showDialog = false;
@@ -137,6 +146,9 @@ async function handleCloseDialog(params: any) {
         state.saveLoading = false;
     }
 }
+
+handleSearch();
+
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
+<!-- 标签的修改和新增 -->
 <template>
     <el-dialog v-model="state.visible" :title="state.title" @close="handleClose(false)" width="440px">
-        <el-form size="medium" label-suffix="：" class="form">
+        <el-form size="medium" label-suffix=":" class="form">
             <el-form-item label="名称" label-width="80px">
                 <el-input v-model="state.name" autocomplete="off" size=""></el-input>
             </el-form-item>
@@ -23,9 +24,20 @@ const props = defineProps<{
     tag: Tag,
     loading: boolean,
 }>();
+
+const state = reactive({
+    visible: props.visible as Boolean,
+    //@ts-ignore
+    name: '',
+    //@ts-ignore
+    title: ''
+});
+
 const emit = defineEmits(["close",]);
+
 watch(
     () => props.visible, (val, oldVal) => handler(val, oldVal));
+
 function handler(val: boolean, oldVal: boolean) {
     if (val !== oldVal) {
         state.visible = val
@@ -35,14 +47,6 @@ function handler(val: boolean, oldVal: boolean) {
         state.title = props.tag.id ? '修改标签' : '新增标签'
     }
 }
-const state = reactive({
-    visible: props.visible as Boolean,
-    //@ts-ignore
-    name: '',
-    //@ts-ignore
-    title: ''
-});
-
 
 function handleClose(isOk: Boolean) {
     emit("close", {

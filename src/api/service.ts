@@ -80,6 +80,7 @@ export function saveTag(method: string, data: Tag) {
     }) as unknown as ResponseData
 }
 
+//和savetag功能重合
 export function addTag(data: Tag) {
     return request({
         url: '/tag/',
