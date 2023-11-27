@@ -1,7 +1,14 @@
 > 持续更新
 
-本博客前端参考 https://www.longair.cn 、夜尽天明博客前端，后端直接采用 https://www.longair.cn 后端Django项目，但对接口做了一定重构。
+重构开始施工
 
+大致修改内容：
+
+- 整体设计风格
+- 内容逻辑，功能... 考虑把评论功能托付给第三方 discord等，利用GitHub认证用户
+- 技术栈：前端还是用vue3，比较熟悉，后端用nest，先走到舒适区边缘，后面再考虑跳出去
+
+可仿照unixetc.com
 
 ## 功能概况
 
@@ -98,33 +105,6 @@
 
 文章详情通过路径中的`query`参数传递文章id的方式区别不同的文章，这样的好处是方便文章可以通过url实现分享，比如想发表在公众号中，原文链接就可以直接用该`URL`
 
-## 页面展示
-
-- 文章主页
-
-  ![文章主页](README/文章主页.png)
-
-- 文章内容
-
-  ![文章内容](README/文章内容.png)
-
-- 后台主页
-
-  ![后台主页](README/后台主页.png)
-
-- 后台登录
-
-  ![后台登录](README/后台登录.png)
-
-- 后台文章新增
-
-  ![后台文章新增](README/后台文章新增.png)
-
-- 后台用户管理
-
-  ![后台用户管理](README/后台用户管理.png)
-
-
 
 ## 注意事项、bug
 
@@ -159,19 +139,7 @@
   后端注册、登录逻辑分离，接口耦合
   
   说到底读不到返回数据还是因为根本没有写好注册逻辑，调用的其实是userlist，所以没有id
-  
-- 样式失效———
 
-  WARNING
-
-  如果您使用 `unplugin-element-plus` 并且只使用组件 API，您需要手动导入样式。
-
-  示例︰
-
-  ```
-  import 'element-plus/es/components/message/style/css'
-  import { ElMessage } from 'element-plus'
-  ```
   
 - 用户管理员登录混乱———
 
