@@ -1,12 +1,21 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import * as path from 'path';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import ElementPlus from 'unplugin-element-plus/vite';
+import Unocss from 'unocss/vite';
+import { presetAttributify, presetIcons, presetUno, transformerDirectives, transformerVariantGroup } from 'unocss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    //设置别名
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
   plugins: [
     vue(),
     //自动导入element组件
@@ -19,6 +28,26 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()]
+    }),
+    Unocss({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+        presetIcons({
+          scale: 1.2,
+          warn: true
+        })
+      ],
+      shortcuts: {
+        frc: 'flex items-center justify-center',
+        fcc: 'flex flex-col items-center justify-center',
+        fcb: 'flex flex-col items-center justify-between',
+        frb: 'flex items-center justify-between',
+        fre: 'flex items-center justify-evenly',
+        full: 'w-full h-full',
+        cp: 'cursor-pointer'
+      },
+      transformers: [transformerDirectives(), transformerVariantGroup()]
     })
   ],
   // 公共路径，默认值为‘/’

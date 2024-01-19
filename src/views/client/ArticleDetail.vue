@@ -239,7 +239,7 @@
           float: left;
           vertical-align: middle;
           // display: inline-block;
-          margin-left: 8px;
+          //   margin-left: 8px;
 
           a {
             color: #333;

@@ -1,16 +1,5 @@
-<template>
-  <div class="left clearfix">
-    <!-- <h3 v-if="state.params.tags" class="left-title">
-            {{ state.tag_name }} 相关的文章：
-        </h3> -->
-    <ArticleList :article-list="state.articlesList" />
-    <Loading v-if="state.isLoading"></Loading>
-    <EndLoading v-if="state.isLoadEnd"></EndLoading>
-  </div>
-</template>
-
 <script setup lang="ts">
-  import { nextTick, onMounted, reactive, watch } from 'vue';
+  import { nextTick, onMounted, reactive, ref, watch } from 'vue';
   import { getDocumentHeight, getQueryStringByName, getScrollTop, getWindowHeight, throttle } from '../../utils';
   import EndLoading from '../../components/EndLoading.vue';
   import Loading from '../../components/Loading.vue';
@@ -74,7 +63,7 @@
     state.params.page = 1;
     handleSearch();
   }
-
+  const articleList = ref([1, 2, 3]);
   const handleSearch = async (): Promise<void> => {
     state.isLoading = true;
     try {
@@ -96,22 +85,33 @@
       state.isLoading = false;
     }
   };
-
-  onMounted(() => {
-    window.onscroll = () => {
-      if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 100) {
-        if (state.isLoadEnd === false && state.isLoading === false) {
-          console.info('222');
-          handleSearch();
-        }
-      }
-    };
-    document.addEventListener('scroll', lazyload);
-    handleSearch();
-  });
 </script>
-
-<style lang="less">
+<template>
+  <div class="full box-border pl-8 flex-col">
+    <div class="flex items-center">
+      <h1>hh</h1>
+      <!-- <div cp ml> <a>文章</a> </div> -->
+      <div cp ml> <a>分类</a> </div>
+      <div cp ml> <a>关于</a> </div></div
+    >
+    <div>
+      <h2>文章列表</h2>
+      <div class="flex-col">
+        <div v-for="(article, index) in articleList" :key="index">
+          <div class="flex-col items-center mb-6">
+            <h3 class="cp mb-2" style="width: fit-content">article title</h3>
+            <div flex class="items-center">
+              <div>article time</div>
+              <div cp ml>article categroy</div>
+              <!-- <div ml>{{ article }}>></div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<style lang="scss">
   a {
     text-decoration: none;
   }
